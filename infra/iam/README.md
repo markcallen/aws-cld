@@ -6,7 +6,7 @@ Create your public key
  - requires gpg setup to be completed 
 
 ```
-gpg --armor --export your.email@address.com > public-key.gpg
+gpg --export your.email@address.com | base64 > public-key.gpg
 ```
 
 ## Configure
