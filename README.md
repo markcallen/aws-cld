@@ -53,4 +53,4 @@ Terraform v1.1.7
 
 Edit local_data.json in the local directory for project specific info
 
-
+Edit all the backend.tf to change the default bucket names
