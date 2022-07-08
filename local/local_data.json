@@ -1,4 +1,18 @@
 {
   "project": "mca",
-  "defaultRegion": "us-east-1"
+  "defaultRegion": "us-east-1",
+  "ecrRepositories": [
+    "mca1",
+    "mca2"
+  ],
+  "iamUsers": [
+    "mca-ops",
+    "mca-eng"
+  ],
+  "engUsers": [
+    "mca-eng"
+  ],
+  "opsUsers": [
+    "mca-ops"
+  ]
 }
