@@ -11,7 +11,8 @@ resource "aws_iam_user" "user" {
   name  = element(module.local.iam_users, count.index)
 
   tags = {
-    name = element(module.local.iam_users, count.index)
+    name    = element(module.local.iam_users, count.index)
+    project = module.local.project
   }
 }
 
