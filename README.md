@@ -79,10 +79,67 @@ Terraform v1.1.7
 
 ## Configure
 
-Edit local_data.json in the local directory for project specific info
+create local bootstrap, infra and env directories
 
-Edit all the backend.tf to change the default bucket names
+```
+mkdir local bootstrap infra env
+```
 
-Start with infra/s3
+copy local_data.json into the local directory
+
+Edit local_data.json for project specific info
+
+
+### Bootstrap
+
+Call the bootstrap module to create the storage s3 bucket
+
+bootstrap/main.tf
+
+```
+module "bootstrap" {
+  source = "../../aws-cloud/bootstrap"
+  
+  json_file = "../local/local_data.json"
+}
+```
+
+```
+terraform init
+terraform plan
+terraform apply
+```
+
+make sure you encrypt the terraform.tfstate file and add it to git
+
+
+### Infra
+
+
+infra/backend.tf
+```
+terraform {
+  backend "s3" {
+    bucket = "<project>-terraform"
+    key    = "infra.tfstate"
+    region = "us-east-1"
+  }
+}
+```
+
+if using iam
+```
+gpg --export your.email@address.com | base64 > public-key.gpg
+```
+
+infra/main.tf
+```
+module "iam" {
+  source = "../../aws-cloud/infra/iam"
+  
+  json_file = "../local/local_data.json"
+  public_key_filename = "./public-key.gpg"
+}
+```
 
 

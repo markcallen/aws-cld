@@ -1,0 +1,10 @@
+- hosts: all
+  vars:
+    docker_install_compose: true
+    docker_users:
+      - ubuntu
+  become: true
+  roles:
+    - geerlingguy.docker
+    - deekayen.awscli2
+    - githubixx.kubectl

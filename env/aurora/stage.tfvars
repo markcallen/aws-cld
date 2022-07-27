@@ -1,0 +1,11 @@
+environment               = "stage"
+rest_master_username      = "nval"
+rest_master_password      = "UXX1ZDcpXsF9"
+rest_subnet_count_us_east = 1
+rest_subnet_count_us_west = 0
+rest_instance_class       = "db.r6g.large"
+web_master_username       = "nval"
+web_master_password       = "7n4Bv2sU99tA"
+web_subnet_count_us_east  = 1
+web_subnet_count_us_west  = 0
+web_instance_class        = "db.r6g.large"

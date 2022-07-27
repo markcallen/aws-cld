@@ -1,9 +1,11 @@
 module "local" {
   source = "../../local"
+
+  json_file = var.local_json_file
 }
 
 data "local_file" "pgp_key" {
-  filename = "./public-key.gpg"
+  filename = var.public_key_filename
 }
 
 resource "aws_iam_user" "user" {

@@ -1,0 +1,16 @@
+environment               = "dev"
+rest_master_username      = "nval"
+rest_master_password      = "218vNfhWY6kr1"
+rest_subnet_count_us_east = 1
+rest_subnet_count_us_west = 0
+rest_instance_class       = "db.r6g.large"
+web_master_username       = "nval"
+web_master_password       = "218vNfhWY6kr1"
+web_subnet_count_us_east  = 1
+web_subnet_count_us_west  = 0
+web_instance_class        = "db.r6g.large"
+ltf_master_username       = "django"
+ltf_master_password       = "QG4wrPFJFmcmU"
+ltf_subnet_count_us_east  = 1
+ltf_subnet_count_us_west  = 0
+ltf_instance_class        = "db.r6g.large"

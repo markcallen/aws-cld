@@ -1,9 +1,16 @@
+variable "json_file" {
+}
+
 locals {
-  local_data = jsondecode(file("${path.module}/local_data.json"))
+  local_data = jsondecode(file(var.json_file))
 }
 
 output "project" {
   value = local.local_data.project
+}
+
+output "domain" {
+  value = local.local_data.domain
 }
 
 output "backend_bucket_name" {

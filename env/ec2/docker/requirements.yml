@@ -1,0 +1,3 @@
+- name: geerlingguy.docker
+- name: deekayen.awscli2
+- name: githubixx.kubectl
