@@ -1,5 +1,5 @@
 resource "aws_iam_group" "engineering" {
-  name = "${module.local.project}-engineering"
+  name = "${var.project}-engineering"
 }
 
 resource "aws_iam_group_policy_attachment" "eng_attach" {
@@ -24,7 +24,7 @@ resource "aws_iam_group_policy_attachment" "eks_console_attach" {
 }
 
 resource "aws_iam_group" "operations" {
-  name = "${module.local.project}-operations"
+  name = "${var.project}-operations"
 }
 
 resource "aws_iam_group_policy_attachment" "ops_attach" {

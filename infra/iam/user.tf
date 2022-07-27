@@ -1,28 +1,24 @@
-module "local" {
-  source = "../../local"
-
-  json_file = var.local_json_file
-}
-
 data "local_file" "pgp_key" {
   filename = var.public_key_filename
 }
 
 resource "aws_iam_user" "user" {
-  count = length(module.local.iam_users)
-  name  = element(module.local.iam_users, count.index)
+  count = length(var.iam_users)
+  name  = element(var.iam_users, count.index)
 
   tags = {
-    name    = element(module.local.iam_users, count.index)
-    project = module.local.project
+    name    = element(var.iam_users, count.index)
+    project = var.project
   }
 }
 
 resource "aws_iam_user_login_profile" "login_profile" {
-  count                   = length(module.local.iam_users)
-  user                    = element(module.local.iam_users, count.index)
+  count                   = length(var.iam_users)
+  user                    = element(var.iam_users, count.index)
   password_reset_required = true
   pgp_key                 = data.local_file.pgp_key.content
+
+  depends_on = [aws_iam_user.user]
 
   lifecycle {
     ignore_changes = [
@@ -34,26 +30,26 @@ resource "aws_iam_user_login_profile" "login_profile" {
 }
 
 resource "aws_iam_user_policy_attachment" "access_keys_attach" {
-  count      = length(module.local.iam_users)
-  user       = element(module.local.iam_users, count.index)
+  count      = length(var.iam_users)
+  user       = element(var.iam_users, count.index)
   policy_arn = aws_iam_policy.access_keys.arn
 }
 
 resource "aws_iam_user_policy_attachment" "mfa_attach" {
-  count      = length(module.local.iam_users)
-  user       = element(module.local.iam_users, count.index)
+  count      = length(var.iam_users)
+  user       = element(var.iam_users, count.index)
   policy_arn = aws_iam_policy.mfa.arn
 }
 
 resource "aws_iam_group_membership" "engineering" {
   name  = "engineering-group-membership"
-  users = module.local.eng_users
+  users = var.eng_users
   group = aws_iam_group.engineering.name
 }
 
 resource "aws_iam_group_membership" "operations" {
   name  = "operations-group-membership"
-  users = module.local.ops_users
+  users = var.ops_users
   group = aws_iam_group.operations.name
 }
 

@@ -1,10 +1,11 @@
-variable "local_json_file" {
+variable "project" {
   type = string
 }
 variable "public_key_filename" {
   type = string
 }
 variable "aws_region" {
+  type    = string
   default = "us-east-1"
 }
 variable "ops_iam_policy" {
@@ -31,3 +32,19 @@ variable "eng_iam_policy" {
     "arn:aws:iam::aws:policy/AmazonS3ReadOnlyAccess",
   ]
 }
+
+variable "iam_users" {
+  description = "List of users to create in IAM"
+  type        = list(string)
+}
+
+variable "eng_users" {
+  description = "IAM users be in the eng group with the eng policies"
+  type        = list(string)
+}
+
+variable "ops_users" {
+  description = "IAM users be in the ops group with the ops policies"
+  type        = list(string)
+}
+

@@ -1,5 +1,5 @@
 resource "aws_iam_policy" "access_keys" {
-  name        = "${module.local.project}-Manage_Access_Keys"
+  name        = "${var.project}-Manage_Access_Keys"
   path        = "/"
   description = "Manage Access Keys"
 
@@ -69,7 +69,7 @@ resource "aws_iam_policy" "access_keys" {
 }
 
 resource "aws_iam_policy" "mfa" {
-  name        = "${module.local.project}-Manage_MFA"
+  name        = "${var.project}-Manage_MFA"
   path        = "/"
   description = "Manage MFA"
 
@@ -134,7 +134,7 @@ EOF
 }
 
 resource "aws_iam_policy" "ecr" {
-  name        = "${module.local.project}-Publish_ECR"
+  name        = "${var.project}-Publish_ECR"
   path        = "/"
   description = "Publish ECR"
 
@@ -183,7 +183,7 @@ EOF
 #        }
 
 resource "aws_iam_policy" "ssh_connect" {
-  name        = "${module.local.project}-ssh_connect"
+  name        = "${var.project}-ssh_connect"
   path        = "/"
   description = "SSH Connect"
   policy      = <<EOF
@@ -209,7 +209,7 @@ EOF
 
 # Following are from: https://docs.aws.amazon.com/eks/latest/userguide/security_iam_id-based-policy-examples.html
 resource "aws_iam_policy" "eks_console" {
-  name        = "${module.local.project}-eks_console"
+  name        = "${var.project}-eks_console"
   path        = "/"
   description = "Use the EKS console"
   policy      = <<EOF
@@ -239,7 +239,7 @@ EOF
 }
 
 resource "aws_iam_policy" "lamda_serverless" {
-  name        = "${module.local.project}-Lamda_Serverless"
+  name        = "${var.project}-Lamda_Serverless"
   path        = "/"
   description = "use serverless to deploy lamba"
   policy      = <<EOF

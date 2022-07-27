@@ -1,4 +1,4 @@
-output "user" {
+output "users" {
   value = { for p in aws_iam_user.user : p.name => p.arn }
 }
 output "passwords" {

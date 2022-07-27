@@ -144,9 +144,17 @@ infra/main.tf
 module "iam" {
   source = "../../aws-cloud/infra/iam"
   
-  json_file = "../local/local_data.json"
   public_key_filename = "./public-key.gpg"
+
+  iam_users = ["test1_eng", "test1_ops"]
+  eng_users = ["test1_eng"]
+  ops_users = ["test1_ops"]
 }
 ```
 
 
+```
+terraform init
+terraform plan -var-file=default.tfvars
+terraform apply
+```
