@@ -150,11 +150,19 @@ module "iam" {
   eng_users = ["test1_eng"]
   ops_users = ["test1_ops"]
 }
+
+module "iam" {
+  source = "../../aws-cloud/infra/iam"
+  
+  ecr_repositories = ["example1", "example2"]
+}
 ```
 
 
 ```
 terraform init
 terraform plan -var-file=default.tfvars
-terraform apply
+terraform apply -var-file=default.tfvars
 ```
+
+

@@ -1,12 +1,12 @@
 variable "project" {
   type = string
 }
-variable "public_key_filename" {
-  type = string
-}
 variable "aws_region" {
   type    = string
   default = "us-east-1"
+}
+variable "public_key_filename" {
+  type = string
 }
 variable "ops_iam_policy" {
   description = "IAM Policy to be attached to operations role"
