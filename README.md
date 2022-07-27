@@ -79,10 +79,10 @@ Terraform v1.1.7
 
 ## Configure
 
-create local bootstrap, infra and env directories
+create bootstrap, infra and env directories
 
 ```
-mkdir local bootstrap infra env
+mkdir bootstrap infra env
 ```
 
 copy local_data.json into the local directory
@@ -92,6 +92,10 @@ Edit local_data.json for project specific info
 
 ### Bootstrap
 
+```
+cd bootstrap
+```
+
 Call the bootstrap module to create the storage s3 bucket
 
 bootstrap/main.tf
@@ -99,10 +103,14 @@ bootstrap/main.tf
 ```
 module "bootstrap" {
   source = "../../aws-cloud/bootstrap"
-  
-  json_file = "../local/local_data.json"
+}
+
+output "project" {
+  value = module.bootstrap.project_name
 }
 ```
+
+if you don't supply a project variable then a project name will be created for you
 
 ```
 terraform init
@@ -110,22 +118,21 @@ terraform plan
 terraform apply
 ```
 
+to get the name of the project
+
+```
+terraform output
+```
+
 make sure you encrypt the terraform.tfstate file and add it to git
 
 
 ### Infra
 
+```
+cd infra
+```
 
-infra/backend.tf
-```
-terraform {
-  backend "s3" {
-    bucket = "<project>-terraform"
-    key    = "infra.tfstate"
-    region = "us-east-1"
-  }
-}
-```
 
 if using iam
 ```

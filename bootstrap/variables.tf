@@ -1,2 +1,9 @@
-variable "local_json_file" {
+variable "region" {
+  type    = string
+  default = "us-east-1"
+}
+
+variable "project" {
+  type    = string
+  default = ""
 }

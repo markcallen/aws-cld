@@ -1,15 +1,16 @@
-module "local" {
-  source = "../local"
-
-  json_file = var.local_json_file
+locals {
+  project_name = var.project == "" ? random_pet.bucket_name.id : var.project
 }
 
 provider "aws" {
-  region = module.local.bucket_region
+  region = var.region
+}
+
+resource "random_pet" "bucket_name" {
 }
 
 resource "aws_s3_bucket" "terraform" {
-  bucket = module.local.backend_bucket_name
+  bucket = "${local.project_name}-terraform"
 }
 
 resource "aws_s3_bucket_acl" "terraform_private" {
