@@ -2,9 +2,7 @@ locals {
   name            = var.cluster_name
   namespace       = "kube-system"
   cluster_version = "1.22"
-  tags = {
-    environment = var.environment
-  }
+  tags            = var.tags
 }
 
 data "aws_subnets" "control_region" {
@@ -91,26 +89,8 @@ module "eks" {
     }
   }
 
-  aws_auth_roles = [
-    {
-      rolearn  = "arn:aws:iam::421566961691:role/us-west-stage-cluster"
-      username = "kubernetes-admin"
-      groups   = ["system:masters"]
-    },
-  ]
-
-  aws_auth_users = [
-    {
-      userarn  = "arn:aws:iam::421566961691:user/ecruser"
-      username = "ecruser"
-      groups   = ["system:masters"]
-    },
-    {
-      userarn  = "arn:aws:iam::421566961691:user/marka"
-      username = "marka"
-      groups   = ["system:masters"]
-    },
-  ]
+  aws_auth_roles = var.aws_auth_roles
+  aws_auth_users = var.aws_auth_users
 
   eks_managed_node_group_defaults = {
     ami_type       = "AL2_x86_64"

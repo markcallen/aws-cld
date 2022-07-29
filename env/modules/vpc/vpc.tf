@@ -41,13 +41,13 @@ module "vpc" {
   private_subnet_tags = {
     "Tier" : "private"
     "kubernetes.io/role/internal-elb" : 1
-    "kubernetes.io/cluster/nval-${var.name}" : "shared"
+    "kubernetes.io/cluster/${var.name}" : "shared"
   }
 
   public_subnet_tags = {
     "Tier" : "public"
     "kubernetes.io/role/elb" : 1
-    "kubernetes.io/cluster/nval-${var.name}" : "shared"
+    "kubernetes.io/cluster/${var.name}" : "shared"
   }
 
   database_subnet_tags = {

@@ -182,5 +182,5 @@ output "aws_auth_configmap_yaml" {
 }
 
 output "aws_secretsmanager-policy-arn" {
-  value = aws_iam_policy.secretsmanager.id
+  value = "" #aws_iam_policy.secretsmanager.id
 }
