@@ -26,7 +26,7 @@ data "aws_vpc" "us_west" {
 
 module "us_east2us_west" {
   source  = "grem11n/vpc-peering/aws"
-  version = "4.0.1"
+  version = "4.1.0"
 
   providers = {
     aws.this = aws.us_east
