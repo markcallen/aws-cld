@@ -4,8 +4,11 @@ Common setup for building out aws infrastructure for dev, stage and prod.  Inclu
 
 ## Concepts
 
-Environments
-dev, stage, prod
+Bootstrap creates the s3 bucket that all state will be stored.  It will generate the backend.tf and tfvar files.
+
+Infra stores configurations that are for the entire project such as IAM users and roles.
+
+Env includes configurations for different environments.  By default they are dev, stage and prod.
 
 ## Architecture
 
@@ -13,9 +16,6 @@ Infra is for setup that does not require an environment
 
 Env is for setup that is specific to each environment
  - requires using terraform workspaces to keep everything seperate in the state files
-
-Using S3 to store the state information
- - need to update each backend.tf to point to the correct file in S3, done manually
 
 ## Setup
 
@@ -85,11 +85,6 @@ create bootstrap, infra and env directories
 mkdir bootstrap infra env
 ```
 
-copy local_data.json into the local directory
-
-Edit local_data.json for project specific info
-
-
 ### Bootstrap
 
 ```
@@ -110,7 +105,7 @@ output "project" {
 }
 ```
 
-if you don't supply a project variable then a project name will be created for you
+if you don't supply a project variable in the bootstrap module then a project name will be created for you
 
 ```
 terraform init
@@ -151,7 +146,7 @@ module "iam" {
   ops_users = ["test1_ops"]
 }
 
-module "iam" {
+module "ecr" {
   source = "../../aws-cloud/infra/iam"
   
   ecr_repositories = ["example1", "example2"]
