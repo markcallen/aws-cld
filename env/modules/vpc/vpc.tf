@@ -37,6 +37,10 @@ module "vpc" {
     for num in range(101, var.subnet_count + 101) :
     cidrsubnet(var.cidr, 8, num)
   ]
+  elasticache_subnets = [
+    for num in range(151, var.subnet_count + 151) :
+    cidrsubnet(var.cidr, 8, num)
+  ]
 
   private_subnet_tags = {
     "Tier" : "private"
@@ -54,7 +58,12 @@ module "vpc" {
     "Tier" : "database"
   }
 
-  create_database_subnet_group = var.create_database_subnet_group
+  elasticache_subnet_tags = {
+    "Tier" : "elasticache"
+  }
+
+  create_database_subnet_group    = var.create_database_subnet_group
+  create_elasticache_subnet_group = var.create_elasticache_subnet_group
 
   enable_dns_hostnames = true
   enable_dns_support   = true
