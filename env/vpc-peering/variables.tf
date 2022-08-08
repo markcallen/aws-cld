@@ -10,3 +10,7 @@ variable "region_us_east" {
 variable "region_us_west" {
   type = string
 }
+variable "vpc_us_east_id" {
+}
+variable "vpc_us_west_id" {
+}
