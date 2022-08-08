@@ -58,3 +58,9 @@ resource "local_file" "env_prod" {
   filename        = "${path.root}/../env/prod.tfvars"
   file_permission = "0644"
 }
+
+resource "local_file" "env_variables" {
+  content         = templatefile("${path.module}/variables.tmpl", {})
+  filename        = "${path.root}/../env/variables.tf"
+  file_permission = "0644"
+}
