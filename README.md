@@ -160,4 +160,50 @@ terraform plan -var-file=default.tfvars
 terraform apply -var-file=default.tfvars
 ```
 
+### Env
+
+Create workspaces for each environment
+
+```
+terraform workspace new {dev, stage, prod}
+```
+
+vpc && vpc-peering
+
+```
+module "vpc" {
+  source = "../../aws-cloud/env/vpc"
+
+  project        = var.project
+  region_us_east = var.region_us_east
+  region_us_west = var.region_us_west
+  cidr           = var.cidr
+  subnet_count   = var.subnet_count
+  environment    = var.environment
+}
+
+module "vpc_peering" {
+  source = "../../aws-cloud/env/vpc-peering"
+
+  project        = var.project
+  region_us_east = var.region_us_east
+  region_us_west = var.region_us_west
+  vpc_us_east_id = module.vpc.us_east_vpc.vpc_id
+  vpc_us_west_id = module.vpc.us_west_vpc.vpc_id
+  environment    = var.environment
+}
+```
+
+Need to target the module.vpc before setting up the vpc-peering
+
+```
+terraform init
+terraform plan -var-file=dev.tfvars -target module.vpc
+terraform apply -var-file=dev.tfvars -target module.vpc
+```
+
+```
+terraform plan -var-file=dev.tfvars
+terraform apply -var-file=dev.tfvars
+```
 
