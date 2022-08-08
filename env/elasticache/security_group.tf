@@ -1,6 +1,6 @@
 resource "aws_security_group" "elasticache_east" {
   provider = aws.us_east
-  vpc_id      = data.aws_vpc.us_east.id
+  vpc_id   = var.vpc_us_east_id
 
   ingress {
     from_port   = 0
@@ -19,7 +19,7 @@ resource "aws_security_group" "elasticache_east" {
 
 resource "aws_security_group" "elasticache_west" {
   provider = aws.us_west
-  vpc_id      = data.aws_vpc.us_west.id
+  vpc_id   = var.vpc_us_west_id
 
   ingress {
     from_port   = 0
