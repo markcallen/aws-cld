@@ -1,13 +1,33 @@
-variable "aws_region" {
-}
-variable "region" {
+variable "project" {
+  type = string
 }
 variable "environment" {
+  type = string
 }
-variable "cidr" {
+variable "name" {
+  type = string
 }
-variable "instance_count" {
+variable "region_us_east" {
+  type = string
+}
+variable "region_us_west" {
+  type = string
+}
+variable "vpc_id_us_east" {
+  type = string
+}
+variable "vpc_id_us_west" {
+  type = string
+}
+variable "route53_zone_id_us_east" {
+}
+variable "route53_zone_id_us_west" {
+}
+variable "instance_count_us_east" {
   default = "1"
+}
+variable "instance_count_us_west" {
+  default = "0"
 }
 variable "ssh_keys" {
   default = []
@@ -16,5 +36,10 @@ variable "ssh_keys" {
 variable "public_ip" {
   default = "0.0.0.0/0"
 }
-variable "subnet_id" {
+variable "instance_type" {
+  default = "t3.small"
+}
+variable "additional_tags" {
+  type    = map(any)
+  default = {}
 }

@@ -1,0 +1,4 @@
+[nodes]
+%{ for index, ip in nodes ~}
+${name}-${index} ansible_host=${ip} ansible_user=${user}
+%{ endfor ~}

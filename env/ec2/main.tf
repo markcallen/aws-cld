@@ -1,160 +1,114 @@
-provider "aws" {
-  region = var.aws_region
-}
+data "aws_subnets" "us_east" {
+  provider = aws.us_east
+  filter {
+    name   = "vpc-id"
+    values = [var.vpc_id_us_east]
+  }
 
-data "aws_vpc" "region" {
   tags = {
-    Name        = "${var.region}-${var.environment}"
-    Environment = var.environment
+    Tier = "public"
   }
 }
 
-data "aws_subnet_ids" "region" {
-  vpc_id = data.aws_vpc.region.id
+data "aws_subnet" "us_east" {
+  provider = aws.us_east
+  count    = length(data.aws_subnets.us_east.ids)
+  id       = data.aws_subnets.us_east.ids[count.index]
 }
 
-data "aws_security_group" "cnft" {
-  vpc_id = data.aws_vpc.region.id
-
+data "aws_subnets" "us_west" {
+  provider = aws.us_west
   filter {
-    name   = "group-name"
-    values = ["default"]
+    name   = "vpc-id"
+    values = [var.vpc_id_us_west]
+  }
+
+  tags = {
+    Tier = "public"
   }
 }
 
-data "aws_ami" "ubuntu" {
-  most_recent = true
-  owners      = ["099720109477"]
-
-  filter {
-    name   = "name"
-    values = ["ubuntu-minimal/images/*/ubuntu-focal-20.04-*"]
-  }
-
-  filter {
-    name   = "virtualization-type"
-    values = ["hvm"]
-  }
-
-  filter {
-    name   = "root-device-type"
-    values = ["ebs"]
-  }
-
-  filter {
-    name   = "architecture"
-    values = ["x86_64"]
-  }
+data "aws_subnet" "us_west" {
+  provider = aws.us_west
+  count    = length(data.aws_subnets.us_west.ids)
+  id       = data.aws_subnets.us_west.ids[count.index]
 }
 
-resource "aws_security_group" "host" {
-  name   = "cnft-host"
-  vpc_id = data.aws_vpc.region.id
+resource "aws_iam_role" "assume_role" {
+  name = "${var.name}-cluster-role"
+
+  assume_role_policy = <<EOF
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Action": "sts:AssumeRole",
+      "Principal": {
+        "Service": "ec2.amazonaws.com"
+      },
+      "Effect": "Allow",
+      "Sid": ""
+    }
+  ]
+}
+EOF
 }
 
-resource "aws_security_group_rule" "host_ssh" {
-  type              = "ingress"
-  from_port         = 22
-  to_port           = 22
-  protocol          = "TCP"
-  cidr_blocks       = [var.public_ip]
-  security_group_id = aws_security_group.host.id
+resource "aws_iam_instance_profile" "profile" {
+  name = "${var.name}-profile"
+  role = aws_iam_role.assume_role.name
 }
 
-resource "aws_security_group_rule" "ingress_http" {
-  type              = "ingress"
-  from_port         = 80
-  to_port           = 80
-  protocol          = "TCP"
-  cidr_blocks       = ["0.0.0.0/0"]
-  security_group_id = aws_security_group.host.id
-}
 
-resource "aws_security_group_rule" "ingress_https" {
-  type              = "ingress"
-  from_port         = 443
-  to_port           = 443
-  protocol          = "TCP"
-  cidr_blocks       = ["0.0.0.0/0"]
-  security_group_id = aws_security_group.host.id
-}
+resource "aws_instance" "us_east" {
+  provider = aws.us_east
 
-resource "aws_security_group_rule" "ingress_api" {
-  type              = "ingress"
-  from_port         = 4000
-  to_port           = 4000
-  protocol          = "TCP"
-  cidr_blocks       = ["0.0.0.0/0"]
-  security_group_id = aws_security_group.host.id
-}
+  ami = data.aws_ami.ubuntu.id
 
-resource "aws_security_group_rule" "ingress_app" {
-  type              = "ingress"
-  from_port         = 3000
-  to_port           = 3000
-  protocol          = "TCP"
-  cidr_blocks       = ["0.0.0.0/0"]
-  security_group_id = aws_security_group.host.id
-}
+  count = var.instance_count_us_east
 
-resource "aws_security_group_rule" "ingress_web" {
-  type              = "ingress"
-  from_port         = 8000
-  to_port           = 8000
-  protocol          = "TCP"
-  cidr_blocks       = ["0.0.0.0/0"]
-  security_group_id = aws_security_group.host.id
-}
-
-resource "aws_security_group_rule" "host_egress_all" {
-  type              = "egress"
-  from_port         = 0
-  to_port           = 0
-  protocol          = "-1"
-  cidr_blocks       = ["0.0.0.0/0"]
-  security_group_id = aws_security_group.host.id
-}
-
-resource "aws_security_group" "database" {
-  name   = "cnft-database"
-  vpc_id = data.aws_vpc.region.id
-}
-
-resource "aws_security_group_rule" "database_psql" {
-  type              = "ingress"
-  from_port         = 5432
-  to_port           = 5432
-  protocol          = "TCP"
-  cidr_blocks       = [var.public_ip]
-  security_group_id = aws_security_group.database.id
-}
-
-resource "aws_security_group_rule" "database_egress_all" {
-  type              = "egress"
-  from_port         = 0
-  to_port           = 0
-  protocol          = "-1"
-  cidr_blocks       = ["0.0.0.0/0"]
-  security_group_id = aws_security_group.database.id
-}
-
-resource "aws_instance" "host" {
-  ami           = data.aws_ami.ubuntu.id
-  instance_type = "c5.xlarge"
-  count         = var.instance_count
-  #subnet_id                   = tolist(data.aws_subnet_ids.region.ids)[count.index]
-  subnet_id                   = var.subnet_id
+  instance_type               = var.instance_type
+  subnet_id                   = element(data.aws_subnet.us_east, count.index).id
+  vpc_security_group_ids      = ["${aws_security_group.us_east.id}"]
   associate_public_ip_address = true
+  iam_instance_profile        = aws_iam_instance_profile.profile.name
   user_data                   = templatefile("${path.module}/host.tmpl", { ssh_keys = var.ssh_keys })
 
-  vpc_security_group_ids = [aws_security_group.host.id, data.aws_security_group.cnft.id]
+  tags = merge(
+    var.additional_tags, {
+      Name = var.name
+  })
 
   root_block_device {
-    volume_size = "50"
+    volume_size = "20"
   }
 
-  tags = {
-    Name = "ec2-${count.index}"
+  lifecycle {
+    ignore_changes = [ami]
+  }
+}
+
+resource "aws_instance" "us_west" {
+  provider = aws.us_west
+
+  ami = data.aws_ami.ubuntu.id
+
+  count = var.instance_count_us_west
+
+  instance_type               = var.instance_type
+  subnet_id                   = element(data.aws_subnet.us_west, count.index).id
+  vpc_security_group_ids      = ["${aws_security_group.us_west.id}"]
+  associate_public_ip_address = true
+  iam_instance_profile        = aws_iam_instance_profile.profile.name
+  user_data                   = templatefile("${path.module}/host.tmpl", { ssh_keys = var.ssh_keys })
+
+  tags = merge(
+    var.additional_tags, {
+      Name = var.name
+  })
+
+  root_block_device {
+    volume_size = "20"
   }
 
   lifecycle {
