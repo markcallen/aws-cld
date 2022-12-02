@@ -1,6 +1,6 @@
 # aws-cloud
 
-Common setup for building out aws infrastructure for dev, stage and prod.  Includes kubernetes (EKS), databases (Aurora) and caches (ElasticCache)
+Common setup for building out AWS infrastructure for dev, stage and prod.  Includes kubernetes (EKS), databases (Aurora) and caches (ElasticCache)
 
 ## Concepts
 
@@ -9,13 +9,10 @@ Bootstrap creates the s3 bucket that all state will be stored.  It will generate
 Infra stores configurations that are for the entire project such as IAM users and roles.
 
 Env includes configurations for different environments.  By default they are dev, stage and prod.
+ - requires using terraform workspaces to keep everything seperate in the state files
 
 ## Architecture
 
-Infra is for setup that does not require an environment
-
-Env is for setup that is specific to each environment
- - requires using terraform workspaces to keep everything seperate in the state files
 
 ## Setup
 
@@ -98,6 +95,7 @@ bootstrap/main.tf
 ```
 module "bootstrap" {
   source = "../../aws-cloud/bootstrap"
+  # project = "myproject" # uncomment to use myproject
 }
 
 output "project" {
@@ -175,23 +173,44 @@ module "vpc" {
   source = "../../aws-cloud/env/vpc"
 
   project        = var.project
+  environment    = var.environment
   region_us_east = var.region_us_east
   region_us_west = var.region_us_west
   cidr           = var.cidr
   subnet_count   = var.subnet_count
-  environment    = var.environment
 }
 
 module "vpc_peering" {
   source = "../../aws-cloud/env/vpc-peering"
 
   project        = var.project
+  environment    = var.environment
   region_us_east = var.region_us_east
   region_us_west = var.region_us_west
-  vpc_us_east_id = module.vpc.us_east_vpc.vpc_id
-  vpc_us_west_id = module.vpc.us_west_vpc.vpc_id
-  environment    = var.environment
+  vpc_id_us_east = module.vpc.us_east_vpc.vpc_id
+  vpc_id_us_west = module.vpc.us_west_vpc.vpc_id
 }
+```
+
+add to variables.tf
+
+```
+variable "cidr" {
+}
+variable "region_us_east" {
+}
+variable "region_us_west" {
+}
+```
+
+add to dev.tfvars
+```
+cidr = {
+  us_east = "10.111.0.0/16"
+  us_west = "10.112.0.0/16"
+}
+region_us_east = "us-east-1"
+region_us_west = "us-west-1"
 ```
 
 Need to target the module.vpc before setting up the vpc-peering
@@ -207,3 +226,44 @@ terraform plan -var-file=dev.tfvars
 terraform apply -var-file=dev.tfvars
 ```
 
+Route53
+
+add to dev.tfvars
+
+```
+domain = "mydomain.com"
+```
+
+```
+module "route53" {
+  source = "../../aws-cloud/env/route53"
+
+  project        = var.project
+  environment    = var.environment
+  domain         = var.domain
+}
+```
+
+EC2
+
+```
+module "ec2" {
+  source = "../../aws-cloud/env/ec2"
+
+  project        = var.project
+  environment    = var.environment
+  region_us_east = var.region_us_east
+  region_us_west = var.region_us_west
+  vpc_id_us_east = module.vpc.us_east_vpc.vpc_id
+  vpc_id_us_west = module.vpc.us_west_vpc.vpc_id
+
+  name = "my project"
+
+  route53_zone_id_us_east = module.route53.us_east.zone_id
+  route53_zone_id_us_west = module.route53.us_west.zone_id
+
+  ssh_keys = ["ssh-rsa AA... my@key"]
+
+}
+
+```

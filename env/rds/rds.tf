@@ -60,7 +60,7 @@ module "db" {
 
   # All available versions: https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/CHAP_PostgreSQL.html#PostgreSQL.Concepts
   engine               = "postgres"
-  engine_version       = "14.1"
+  engine_version       = "14.3"
   family               = "postgres14" # DB parameter group
   major_engine_version = "14"         # DB option group
   instance_class       = var.instance_class

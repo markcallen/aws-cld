@@ -14,5 +14,6 @@ variable "cidr" {
   type = map(any)
 }
 variable "subnet_count" {
-  type = number
+  type    = number
+  default = 2
 }

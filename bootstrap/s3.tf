@@ -10,7 +10,7 @@ resource "random_pet" "bucket_name" {
 }
 
 resource "aws_s3_bucket" "terraform" {
-  bucket = "${local.project_name}-terraform"
+  bucket = "${local.project_name}-${var.s3_extension}"
 }
 
 resource "aws_s3_bucket_acl" "terraform_private" {

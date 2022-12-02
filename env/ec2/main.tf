@@ -63,7 +63,7 @@ resource "aws_iam_instance_profile" "profile" {
 resource "aws_instance" "us_east" {
   provider = aws.us_east
 
-  ami = data.aws_ami.ubuntu.id
+  ami = data.aws_ami.us_east.id
 
   count = var.instance_count_us_east
 
@@ -80,7 +80,7 @@ resource "aws_instance" "us_east" {
   })
 
   root_block_device {
-    volume_size = "20"
+    volume_size = var.root_disk_size
   }
 
   lifecycle {
@@ -91,7 +91,7 @@ resource "aws_instance" "us_east" {
 resource "aws_instance" "us_west" {
   provider = aws.us_west
 
-  ami = data.aws_ami.ubuntu.id
+  ami = data.aws_ami.us_west.id
 
   count = var.instance_count_us_west
 
@@ -108,7 +108,7 @@ resource "aws_instance" "us_west" {
   })
 
   root_block_device {
-    volume_size = "20"
+    volume_size = var.root_disk_size
   }
 
   lifecycle {

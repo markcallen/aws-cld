@@ -39,6 +39,10 @@ variable "public_ip" {
 variable "instance_type" {
   default = "t3.small"
 }
+variable "root_disk_size" {
+  type    = number
+  default = 20
+}
 variable "additional_tags" {
   type    = map(any)
   default = {}

@@ -1,7 +1,7 @@
 locals {
   common_tags = {
     Environment = var.environment
-    ManagedBy   = "terraform"
+    ManagedBy   = "aws-cloud"
     Project     = var.project
   }
 }
@@ -15,8 +15,8 @@ module "us_east2us_west" {
     aws.peer = aws.us_west
   }
 
-  this_vpc_id = var.vpc_us_east_id
-  peer_vpc_id = var.vpc_us_west_id
+  this_vpc_id = var.vpc_id_us_east
+  peer_vpc_id = var.vpc_id_us_west
 
   auto_accept_peering = true
 

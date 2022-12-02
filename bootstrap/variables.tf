@@ -7,3 +7,8 @@ variable "project" {
   type    = string
   default = ""
 }
+
+variable "s3_extension" {
+  type    = string
+  default = "aws-cloud"
+}

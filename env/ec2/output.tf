@@ -5,6 +5,13 @@ output "dns_name_us_west" {
   value = aws_route53_record.ec2_us_west[*].name
 }
 
+output "ip_us_east" {
+  value = aws_instance.us_east[*].public_ip
+}
+output "ip_us_west" {
+  value = aws_instance.us_west[*].public_ip
+}
+
 output "inventory" {
   value = templatefile(
     "${path.module}/inventory.tmpl",
