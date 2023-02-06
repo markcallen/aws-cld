@@ -263,7 +263,45 @@ module "ec2" {
   route53_zone_id_us_west = module.route53.us_west.zone_id
 
   ssh_keys = ["ssh-rsa AA... my@key"]
-
 }
 
+```
+
+Ansible
+
+To create an inventory file for ansible add the following:
+
+```
+resource "local_file" "inventory" {
+  content         = format("%s", module.ec2.inventory)
+  file_permission = "0644"
+  filename        = "${path.module}/ansible/${var.environment}"
+}
+```
+
+ansible/requirements.yaml
+```
+- name: geerlingguy.docker
+- name: deekayen.awscli2
+```
+
+ansible/docker.yaml
+```
+- hosts: all
+  vars:
+  ⦙ docker_install_compose: true
+  ⦙ docker_users:
+  ⦙ ⦙ - ubuntu
+  become: true
+  roles:
+  ⦙ - geerlingguy.docker
+  ⦙ - deekayen.awscli2
+```
+
+run
+
+```
+cd ansible
+ansible-galaxy role install -r requirements.yaml
+ansible-playbook -i dev -u ubuntu docker.yaml
 ```
