@@ -10,5 +10,5 @@ variable "project" {
 
 variable "s3_extension" {
   type    = string
-  default = "aws-cloud"
+  default = "aws-cld"
 }

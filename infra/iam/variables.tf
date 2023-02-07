@@ -36,15 +36,18 @@ variable "eng_iam_policy" {
 variable "iam_users" {
   description = "List of users to create in IAM"
   type        = list(string)
+  default     = []
 }
 
 variable "eng_users" {
   description = "IAM users be in the eng group with the eng policies"
   type        = list(string)
+  default     = []
 }
 
 variable "ops_users" {
   description = "IAM users be in the ops group with the ops policies"
   type        = list(string)
+  default     = []
 }
 

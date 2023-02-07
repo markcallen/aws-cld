@@ -1,7 +1,7 @@
-# aws-cloud
+# aws-cld
 
-Common setup for building out AWS infrastructure for dev, stage and prod.  Includes kubernetes (EKS), databases (Aurora) and caches (ElasticCache)
-
+Common setup for building out AWS infrastructure for dev, stage and prod.  Includes kubernetes (EKS), databases (Aurora), caches (ElasticCache) and ec2 instances.
+N
 ## Concepts
 
 Bootstrap creates the s3 bucket that all state will be stored.  It will generate the backend.tf and tfvar files.
@@ -94,8 +94,8 @@ bootstrap/main.tf
 
 ```
 module "bootstrap" {
-  source = "../../aws-cloud/bootstrap"
-  # project = "myproject" # uncomment to use myproject
+  source = "github.com/markcallen/aws-cld//bootstrap/"
+  project = "myproject"
 }
 
 output "project" {
@@ -126,7 +126,6 @@ make sure you encrypt the terraform.tfstate file and add it to git
 cd infra
 ```
 
-
 if using iam
 ```
 gpg --export your.email@address.com | base64 > public-key.gpg
@@ -134,22 +133,30 @@ gpg --export your.email@address.com | base64 > public-key.gpg
 
 infra/main.tf
 ```
-module "iam" {
-  source = "../../aws-cloud/infra/iam"
-  
-  public_key_filename = "./public-key.gpg"
+variable "project" {
+}
 
-  iam_users = ["test1_eng", "test1_ops"]
-  eng_users = ["test1_eng"]
-  ops_users = ["test1_ops"]
+module "iam" {
+  source = "github.com/markcallen/aws-cld//infra/iam"
+
+  project             = var.project
+  public_key_filename = "./public-key.gpg"
+  iam_users           = ["test1_eng", "test1_ops"]
+  eng_users           = ["test1_eng"]
+  ops_users           = ["test1_ops"]
 }
 
 module "ecr" {
-  source = "../../aws-cloud/infra/iam"
-  
+  source = "github.com/markcallen/aws-cld//infra/ecr"
+
+  project          = var.project
   ecr_repositories = ["example1", "example2"]
 }
 ```
+
+If you already have users created in IAM and just want to add them to the project then
+leave the iam_users array empty and include the users you want in this project to 
+eng_users and ops_users.
 
 
 ```
@@ -163,7 +170,7 @@ terraform apply -var-file=default.tfvars
 Create workspaces for each environment
 
 ```
-terraform workspace new {dev, stage, prod}
+terraform workspace new {dev, prod}
 ```
 
 vpc && vpc-peering

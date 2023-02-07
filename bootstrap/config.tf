@@ -39,16 +39,6 @@ resource "local_file" "env_dev" {
   file_permission = "0644"
 }
 
-resource "local_file" "env_stage" {
-  content = templatefile("${path.module}/environment_vars.tmpl",
-    {
-      project     = local.project_name
-      environment = "stage"
-  })
-  filename        = "${path.root}/../env/stage.tfvars"
-  file_permission = "0644"
-}
-
 resource "local_file" "env_prod" {
   content = templatefile("${path.module}/environment_vars.tmpl",
     {
