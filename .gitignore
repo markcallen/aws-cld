@@ -1,6 +1,3 @@
 .terraform/
 .gitsecret/keys/random_seed
 !*.secret
-k8s/dev/04-oidc-secret.yaml
-k8s/stage/04-oidc-secret.yaml
-k8s/dev_v2/04-oidc-secret.yaml
