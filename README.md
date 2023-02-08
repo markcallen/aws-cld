@@ -293,6 +293,31 @@ module "route53ns" {
 }
 ```
 
+ACM
+
+
+```
+module "acm" {
+  source = "github.com/markcallen/aws-cld//env/acm"
+
+  project          = var.project
+  environment      = var.environment
+  environment_name = var.environment_dns_name
+  domain           = var.domain
+  region_us_east   = var.region_us_east
+  region_us_west   = var.region_us_west
+
+
+  subject_alternative_names = [
+    "*.${var.environment_dns_name}.${var.domain}",
+  ]
+}
+
+```
+
+subject_alternative_names can included specific domain names if a wildcard is needed
+
+
 EKS
 
 Add to variables.tf
