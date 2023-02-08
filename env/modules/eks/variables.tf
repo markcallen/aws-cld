@@ -1,21 +1,36 @@
-variable "eks_cluster_name" {
+variable "cluster_name" {
   type = string
 }
+
 variable "vpc_id" {
 }
-variable "public_ip" {
-  description = "The public ip for the current machine"
-  default     = "0.0.0.0/0"
-}
+
 variable "environment" {
 }
-variable "oidc_thumbprint_list" {
+
+variable "app_desired_count" {
+}
+
+variable "app_max_count" {
+}
+
+variable "app_min_count" {
+}
+variable "enable" {
+  type    = number
+  default = 1
+}
+
+variable "aws_auth_roles" {
   type    = list(any)
   default = []
 }
-variable "app_desired_count" {
+
+variable "aws_auth_users" {
+  type    = list(any)
+  default = []
 }
-variable "app_max_count" {
-}
-variable "app_min_count" {
+
+variable "tags" {
+  type = map(any)
 }

@@ -34,7 +34,7 @@ Creates peerings between vpcs
 
 Creates the Aurora databases
 
-## eks_v2
+## eks
 
 Creates EKS cluster
 

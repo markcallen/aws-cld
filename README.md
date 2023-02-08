@@ -170,14 +170,31 @@ terraform apply -var-file=default.tfvars
 Create workspaces for each environment
 
 ```
-terraform workspace new {dev, prod}
+terraform init
+terraform workspace new dev
+terraform workspace new prod
 ```
 
 vpc && vpc-peering
 
+Add to variables.tf
+
+```
+variable "cidr" {
+}
+variable "region_us_east" {
+}
+variable "region_us_west" {
+}
+variable "subnet_count" {
+}
+```
+
+Create main.tf
+
 ```
 module "vpc" {
-  source = "../../aws-cloud/env/vpc"
+  source = "github.com/markcallen/aws-cld//env/vpc"
 
   project        = var.project
   environment    = var.environment
@@ -188,7 +205,7 @@ module "vpc" {
 }
 
 module "vpc_peering" {
-  source = "../../aws-cloud/env/vpc-peering"
+  source = "github.com/markcallen/aws-cld//env/vpc-peering"
 
   project        = var.project
   environment    = var.environment
@@ -196,17 +213,6 @@ module "vpc_peering" {
   region_us_west = var.region_us_west
   vpc_id_us_east = module.vpc.us_east_vpc.vpc_id
   vpc_id_us_west = module.vpc.us_west_vpc.vpc_id
-}
-```
-
-add to variables.tf
-
-```
-variable "cidr" {
-}
-variable "region_us_east" {
-}
-variable "region_us_west" {
 }
 ```
 
@@ -218,11 +224,15 @@ cidr = {
 }
 region_us_east = "us-east-1"
 region_us_west = "us-west-1"
+subnet_count   = 2
 ```
 
 Need to target the module.vpc before setting up the vpc-peering
 
+Make sure you are in the correct workspace
+
 ```
+terraform workspace select dev
 terraform init
 terraform plan -var-file=dev.tfvars -target module.vpc
 terraform apply -var-file=dev.tfvars -target module.vpc
@@ -250,6 +260,54 @@ module "route53" {
   domain         = var.domain
 }
 ```
+
+EKS
+
+Add to variables.tf
+
+```
+variable "app_desired_count" {
+}
+variable "app_max_count" {
+}
+variable "app_min_count" {
+}
+variable "enable_us_east" {
+}
+variable "enable_us_west" {
+}
+
+```
+
+Add to main.tf
+
+```
+module "eks" {
+  source = "github.com/markcallen/aws-cld//env/eks"
+
+  project           = var.project
+  environment       = var.environment
+  app_desired_count = var.app_desired_count
+  app_min_count     = var.app_min_count
+  app_max_count     = var.app_max_count
+
+  enable_us_east = var.enable_us_east
+  enable_us_west = var.enable_us_west
+}
+
+```
+
+Add to dev.tfvars
+```
+app_desired_count = 1
+app_max_count     = 5
+app_min_count     = 1
+enable_us_east    = 1
+enable_us_west    = 0
+```
+
+Enable us_east and us_west clusters using enable_us_east or enable_us_west to a number greater than 0.
+ - TODO: this is not working yet
 
 EC2
 
