@@ -1,7 +1,7 @@
 locals {
   common_tags = {
     Environment = var.environment
-    ManagedBy   = "aws-cloud"
+    ManagedBy   = "aws-cld"
     Project     = var.project
   }
 }

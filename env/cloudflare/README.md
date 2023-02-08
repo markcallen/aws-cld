@@ -3,5 +3,5 @@
 ## Tests
 
 ```
-dig NS ${environment}.nval.com
+dig NS ${environment}.${domain}
 ```

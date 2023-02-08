@@ -1,4 +1,4 @@
-# aws-cloud/infra
+# aws-cld/infra
 
 Run these in the following order
 

@@ -4,7 +4,7 @@ data "aws_route53_zone" "root" {
 
 resource "aws_route53_record" "environment" {
   zone_id = data.aws_route53_zone.root.zone_id
-  name    = "${var.environment}.${var.domain}"
+  name    = "${var.environment_name}.${var.domain}"
   type    = "NS"
   ttl     = "30"
   records = var.name_servers

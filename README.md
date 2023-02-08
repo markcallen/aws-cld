@@ -245,21 +245,49 @@ terraform apply -var-file=dev.tfvars
 
 Route53
 
+Adding a set of environment domains to an existing route53 root domain
+
+add to variables.tf
+
+```
+variable "domain" {
+}
+variable "environment_dns_name" {
+}
+```
+
 add to dev.tfvars
 
 ```
 domain = "mydomain.com"
+environment_dns_name = "d"
 ```
 
 ```
 module "route53" {
-  source = "../../aws-cloud/env/route53"
+  source = "github.com/markcallen/aws-cld//env/route53"
 
-  project        = var.project
-  environment    = var.environment
-  domain         = var.domain
+  project             = var.project
+  environment         = var.environment
+  environment_name    = var.environment_dns_name
+  domain              = var.domain
 }
+
+module "route53ns" {
+  source = "github.com/markcallen/aws-cld//env/route53-ns"
+
+  project             = var.project
+  environment         = var.environment
+  environment_name    = var.environment_dns_name
+  domain              = var.domain
+
+  depends_on = [
+    module.route53.name_servers
+  ]
+}
+
 ```
+
 
 EKS
 
@@ -306,14 +334,34 @@ enable_us_east    = 1
 enable_us_west    = 0
 ```
 
+Add to outputs.tf
+
+```
+output "cluster_id" {
+  value = module.eks.cluster_id
+}
+```
+
 Enable us_east and us_west clusters using enable_us_east or enable_us_west to a number greater than 0.
  - TODO: this is not working yet
+
+Configure kubectl
+
+Get the cluster name
+
+```
+terraform output cluster_id
+```
+
+```
+aws eks update-kubeconfig --region <region> --name <cluster_id>
+```
 
 EC2
 
 ```
 module "ec2" {
-  source = "../../aws-cloud/env/ec2"
+  source = "../../aws-cld/env/ec2"
 
   project        = var.project
   environment    = var.environment
