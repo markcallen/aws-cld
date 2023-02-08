@@ -245,7 +245,7 @@ terraform apply -var-file=dev.tfvars
 
 Route53
 
-Adding a set of environment domains to an existing route53 root domain
+Adding a set of environment domains
 
 add to variables.tf
 
@@ -273,21 +273,25 @@ module "route53" {
   domain              = var.domain
 }
 
+```
+
+Adding environment domains to a route53 root domain
+
+```
 module "route53ns" {
   source = "github.com/markcallen/aws-cld//env/route53-ns"
 
-  project             = var.project
-  environment         = var.environment
-  environment_name    = var.environment_dns_name
-  domain              = var.domain
+  project          = var.project
+  environment      = var.environment
+  environment_name = var.environment_dns_name
+  domain           = var.domain
+  name_servers     = module.route53.environment.name_servers
 
   depends_on = [
-    module.route53.name_servers
+    module.route53.environment
   ]
 }
-
 ```
-
 
 EKS
 
