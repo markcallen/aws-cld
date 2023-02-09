@@ -4,9 +4,6 @@ variable "project" {
 variable "environment" {
   type = string
 }
-variable "name" {
-  type = string
-}
 variable "region_us_east" {
   type = string
 }

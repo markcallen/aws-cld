@@ -390,7 +390,7 @@ EC2
 
 ```
 module "ec2" {
-  source = "../../aws-cld/env/ec2"
+  source = "github.com/markcallen/aws-cld//env/ec2"
 
   project        = var.project
   environment    = var.environment

@@ -1,5 +1,5 @@
 resource "aws_security_group" "us_east" {
-  name        = "${var.name}-sg"
+  name        = "${var.project}-ec2-sg"
   description = "ec2 instance"
 
   provider = aws.us_east
@@ -21,7 +21,7 @@ resource "aws_security_group" "us_east" {
 }
 
 resource "aws_security_group" "us_west" {
-  name        = "${var.name}-sg"
+  name        = "${var.project}-ec2-sg"
   description = "ec2 instance"
 
   provider = aws.us_west

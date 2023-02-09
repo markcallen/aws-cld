@@ -35,7 +35,7 @@ data "aws_subnet" "us_west" {
 }
 
 resource "aws_iam_role" "assume_role" {
-  name = "${var.name}-cluster-role"
+  name = "${var.project}-ec2-role"
 
   assume_role_policy = <<EOF
 {
@@ -55,7 +55,7 @@ EOF
 }
 
 resource "aws_iam_instance_profile" "profile" {
-  name = "${var.name}-profile"
+  name = "${var.project}-ec2-profile"
   role = aws_iam_role.assume_role.name
 }
 
@@ -76,7 +76,7 @@ resource "aws_instance" "us_east" {
 
   tags = merge(
     var.additional_tags, {
-      Name = var.name
+      Name = var.project
   })
 
   root_block_device {
@@ -104,7 +104,7 @@ resource "aws_instance" "us_west" {
 
   tags = merge(
     var.additional_tags, {
-      Name = var.name
+      Name = var.project
   })
 
   root_block_device {

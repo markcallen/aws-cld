@@ -17,7 +17,7 @@ output "inventory" {
     "${path.module}/inventory.tmpl",
     {
       user  = "ubuntu"
-      name  = var.name
+      name  = var.project
       nodes = concat(aws_instance.us_east[*].public_ip, aws_instance.us_west[*].public_ip)
     }
   )
