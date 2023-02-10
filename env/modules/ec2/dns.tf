@@ -8,5 +8,5 @@ resource "aws_route53_record" "ec2" {
   name    = "${var.project}-${count.index + 1}.${data.aws_route53_zone.root.name}"
   type    = "A"
   ttl     = "300"
-  records = [aws_instance.ec2[count.index].public_ip]
+  records = [module.ec2_instance[count.index].instance.public_ip]
 }

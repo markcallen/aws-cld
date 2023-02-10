@@ -407,13 +407,17 @@ module "ec2" {
   environment    = var.environment
   region_us_east = var.region_us_east
   region_us_west = var.region_us_west
-  vpc_id_us_east = module.vpc.us_east_vpc.vpc_id
-  vpc_id_us_west = module.vpc.us_west_vpc.vpc_id
 
   route53_zone_id_us_east = module.route53.us_east.zone_id
   route53_zone_id_us_west = module.route53.us_west.zone_id
 
   ssh_keys = ["ssh-rsa AA... my@key"]
+
+  instance_count_us_east = 1
+  instance_count_us_west = 0
+
+  extra_disk_size  = 1000
+  extra_disk_count = 1
 }
 
 ```

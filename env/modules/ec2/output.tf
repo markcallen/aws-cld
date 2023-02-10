@@ -2,7 +2,7 @@ output "dns_names" {
   value = aws_route53_record.ec2[*].name
 }
 output "ips" {
-  value = aws_instance.ec2[*].public_ip
+  value = module.ec2_instance[*].instance.public_ip
 }
 
 output "inventory" {
@@ -11,7 +11,7 @@ output "inventory" {
     {
       user  = "ubuntu"
       name  = var.project
-      nodes = aws_instance.ec2[*].public_ip
+      nodes = module.ec2_instance[*].instance.public_ip
     }
   )
 }
