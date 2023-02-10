@@ -74,6 +74,17 @@ terraform --version
 Terraform v1.1.7
 ```
 
+Use [tflint](https://github.com/terraform-linters/tflint)
+
+```
+brew install tflint
+```
+
+Setup alias for terraform
+```
+alias tf=terraform
+```
+
 ## Configure
 
 create bootstrap, infra and env directories
@@ -399,8 +410,6 @@ module "ec2" {
   vpc_id_us_east = module.vpc.us_east_vpc.vpc_id
   vpc_id_us_west = module.vpc.us_west_vpc.vpc_id
 
-  name = "my project"
-
   route53_zone_id_us_east = module.route53.us_east.zone_id
   route53_zone_id_us_west = module.route53.us_west.zone_id
 
@@ -431,13 +440,13 @@ ansible/docker.yaml
 ```
 - hosts: all
   vars:
-  ⦙ docker_install_compose: true
-  ⦙ docker_users:
-  ⦙ ⦙ - ubuntu
+    docker_install_compose: true
+    docker_users:
+      - ubuntu
   become: true
   roles:
-  ⦙ - geerlingguy.docker
-  ⦙ - deekayen.awscli2
+    - geerlingguy.docker
+    - deekayen.awscli2
 ```
 
 run
