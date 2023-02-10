@@ -38,4 +38,5 @@ module "ec2_instance" {
   root_disk_size     = var.root_disk_size
   security_group_ids = [aws_security_group.ssh_web.id]
   availability_zone  = element(var.subnet, count.index).availability_zone
+  ssh_keys           = var.ssh_keys
 }
