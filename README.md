@@ -453,10 +453,29 @@ ansible/docker.yaml
     - deekayen.awscli2
 ```
 
+ansible/data.yaml
+```
+- hosts: nodes
+  become: yes
+  become_method: sudo
+  roles:
+    - role: aws-volumes
+      vars:
+        ebs_volumes:
+          data:
+            device_name: /dev/xvdh
+            mount_point: "/data"
+            fs: ext4
+            mount_opts: noatime,nodiratime
+            owner: ubuntu
+            group: ubuntu
+```
+
 run
 
 ```
 cd ansible
 ansible-galaxy role install -r requirements.yaml
 ansible-playbook -i dev -u ubuntu docker.yaml
+ansible-playbook -i dev -u ubuntu data.yaml
 ```
