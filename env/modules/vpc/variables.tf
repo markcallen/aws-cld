@@ -1,10 +1,14 @@
 variable "cidr" {
+  type = map(any)
 }
 variable "name" {
+  type = string
 }
 variable "environment" {
+  type = string
 }
 variable "subnet_count" {
+  type = number
 }
 variable "create_database_subnet_group" {
   default = true
