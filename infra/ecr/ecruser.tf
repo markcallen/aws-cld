@@ -49,6 +49,10 @@ resource "aws_iam_user" "ecruser" {
     name    = "ecruser"
     project = var.project
   }
+
+  lifecycle {
+    ignore_changes = [tags]
+  }
 }
 
 resource "aws_iam_user_policy_attachment" "eks_describe_clusters_attach" {
