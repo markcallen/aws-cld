@@ -1,10 +1,12 @@
 variable "environment" {
+  type = string
 }
-
 variable "project" {
+  type = string
 }
 
 variable "public_ip" {
+  type = string
   default = "0.0.0.0/0"
 }
 

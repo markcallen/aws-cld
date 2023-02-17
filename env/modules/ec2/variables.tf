@@ -33,4 +33,5 @@ variable "additional_tags" {
   default = {}
 }
 variable "region" {
+  type = string
 }
