@@ -104,6 +104,16 @@ Call the bootstrap module to create the storage s3 bucket
 bootstrap/main.tf
 
 ```
+terraform {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = "~> 4.0"
+    }
+  }
+  required_version = ">= 0.13"
+}
+
 module "bootstrap" {
   source = "github.com/markcallen/aws-cld//bootstrap/"
   project = "myproject"
