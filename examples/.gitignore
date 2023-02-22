@@ -1,0 +1,7 @@
+backend.tf
+versions.tf
+variables.tf
+default.tfvars
+dev.tfvars
+prod.tfvars
+public-key.gpg
