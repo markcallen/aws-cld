@@ -8,7 +8,7 @@ locals {
 
 module "us_east2us_west" {
   source  = "grem11n/vpc-peering/aws"
-  version = "4.1.0"
+  version = "5.1.0"
 
   providers = {
     aws.this = aws.us_east
