@@ -202,13 +202,29 @@ Add to variables.tf
 
 ```
 variable "cidr" {
+  type = string
 }
 variable "region_us_east" {
+  type = string
 }
 variable "region_us_west" {
+  type = string
 }
 variable "subnet_count" {
+  type = map(any)
 }
+```
+
+Add to dev.tfvars
+
+```
+cidr = {
+  us_east = "10.111.0.0/16"
+  us_west = "10.112.0.0/16"
+}
+region_us_east = "us-east-1"
+region_us_west = "us-west-1"
+subnet_count   = 2
 ```
 
 Create main.tf
@@ -272,8 +288,10 @@ add to variables.tf
 
 ```
 variable "domain" {
+  type = string
 }
 variable "environment_dns_name" {
+  type = string
 }
 ```
 
@@ -293,7 +311,6 @@ module "route53" {
   environment_name    = var.environment_dns_name
   domain              = var.domain
 }
-
 ```
 
 Adding environment domains to a route53 root domain
@@ -426,7 +443,7 @@ module "ec2" {
   instance_count_us_east = 1
   instance_count_us_west = 0
 
-  extra_disk_size  = 1000
+  extra_disk_size  = 100
   extra_disk_count = 1
 }
 
