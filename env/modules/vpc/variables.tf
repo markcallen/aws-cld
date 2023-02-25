@@ -1,5 +1,5 @@
 variable "cidr" {
-  type = map(any)
+  type = string
 }
 variable "name" {
   type = string
