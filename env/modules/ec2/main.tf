@@ -33,6 +33,7 @@ module "ec2_instance" {
 
   ami_id             = data.aws_ami.ubuntu2004.id
   profile_name       = aws_iam_instance_profile.profile.name
+  name               = var.name
   instance_type      = var.instance_type
   subnet_id          = element(var.subnet, count.index).id
   root_disk_size     = var.root_disk_size

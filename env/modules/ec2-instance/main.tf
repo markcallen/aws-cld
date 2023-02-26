@@ -10,7 +10,7 @@ resource "aws_instance" "ec2" {
 
   tags = merge(
     var.additional_tags, {
-      Name = var.project
+      Name = var.name
   })
 
   root_block_device {

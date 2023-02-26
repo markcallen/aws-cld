@@ -46,6 +46,8 @@ module "route53ns" {
 module "ec2" {
   source = "../../../env/ec2/"
 
+  name = "ec2-ex"
+
   project        = var.project
   environment    = var.environment
   region_us_east = var.region_us_east

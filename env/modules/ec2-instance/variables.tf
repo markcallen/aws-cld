@@ -56,3 +56,6 @@ variable "ssh_keys" {
   default = []
   type    = list(any)
 }
+variable "name" {
+  type = string
+}

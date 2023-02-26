@@ -40,3 +40,7 @@ variable "root_disk_size" {
   type    = number
   default = 50
 }
+variable "name" {
+  type = string
+}
+

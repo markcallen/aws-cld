@@ -65,6 +65,7 @@ module "ec2_us_east" {
   environment = var.environment
   region      = var.region_us_east
 
+  name             = var.name
   instance_type    = var.instance_type
   instance_count   = var.instance_count_us_east
   subnet           = data.aws_subnet.us_east
@@ -83,10 +84,12 @@ module "ec2_us_west" {
     aws = aws.us_west
   }
 
+
   project     = var.project
   environment = var.environment
   region      = var.region_us_west
 
+  name             = var.name
   instance_type    = var.instance_type
   instance_count   = var.instance_count_us_west
   subnet           = data.aws_subnet.us_west

@@ -4,6 +4,9 @@ variable "project" {
 variable "environment" {
   type = string
 }
+variable "region" {
+  type = string
+}
 variable "vpc_id" {
 }
 variable "route53_zone_id" {
@@ -28,10 +31,10 @@ variable "ssh_keys" {
 variable "public_ip" {
   default = "0.0.0.0/0"
 }
+variable "name" {
+  type = string
+}
 variable "additional_tags" {
   type    = map(any)
   default = {}
-}
-variable "region" {
-  type = string
 }
