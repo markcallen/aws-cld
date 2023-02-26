@@ -45,6 +45,9 @@ region_us_east = "us-east-1"
 region_us_west = "us-west-1"
 subnet_count   = 2
 
+domain               = "project.com"
+environment_dns_name = "d"
+
 ssh_keys = ["ssh-rsa AA... my@key"]
 ```
 
@@ -68,6 +71,9 @@ cidr = {
 region_us_east = "us-east-1"
 region_us_west = "us-west-1"
 subnet_count   = 2
+
+domain               = "project.com"
+environment_dns_name = "p"
 
 ssh_keys = ["ssh-rsa AA... my@key"]
 ```
