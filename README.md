@@ -215,18 +215,6 @@ variable "subnet_count" {
 }
 ```
 
-Add to dev.tfvars
-
-```
-cidr = {
-  us_east = "10.111.0.0/16"
-  us_west = "10.112.0.0/16"
-}
-region_us_east = "us-east-1"
-region_us_west = "us-west-1"
-subnet_count   = 2
-```
-
 Create main.tf
 
 ```
@@ -295,12 +283,7 @@ variable "environment_dns_name" {
 }
 ```
 
-add to dev.tfvars
-
-```
-domain = "mydomain.com"
-environment_dns_name = "d"
-```
+add to main.tf
 
 ```
 module "route53" {
@@ -311,6 +294,13 @@ module "route53" {
   environment_name    = var.environment_dns_name
   domain              = var.domain
 }
+```
+
+add to dev.tfvars
+
+```
+domain = "mydomain.com"
+environment_dns_name = "d"
 ```
 
 Adding environment domains to a route53 root domain
@@ -506,6 +496,7 @@ ansible-galaxy role install -r requirements.yaml
 ansible-playbook -i dev -u ubuntu docker.yaml
 ansible-playbook -i dev -u ubuntu data.yaml
 ```
+
 ## License
 
 Distributed under the Apache-2.0 License. See `LICENSE` for more information.
