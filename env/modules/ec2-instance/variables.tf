@@ -29,16 +29,13 @@ variable "extra_disk_size" {
 variable "extra_disk_iops" {
   default = 3000
 }
-
 variable "extra_disk_throughput" {
   default = 125
 }
-
 variable "extra_disk_type" {
   type    = string
   default = "gp3"
 }
-
 variable "extra_disk_device_names" {
   type    = list(any)
   default = ["/dev/xvdd", "/dev/xvde", "/dev/xvdf", "/dev/xvdg"]
