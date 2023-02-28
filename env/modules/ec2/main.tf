@@ -1,5 +1,5 @@
 resource "aws_iam_role" "assume_role" {
-  name = "${var.project}-ec2-role-${var.region}"
+  name = "${var.name}-${random_id.id.hex}-ec2-role-${var.region}"
 
   assume_role_policy = <<EOF
 {
@@ -19,7 +19,7 @@ EOF
 }
 
 resource "aws_iam_instance_profile" "profile" {
-  name = "${var.project}-ec2-profile-${var.region}"
+  name = "${var.name}-${random_id.id.hex}-ec2-profile-${var.region}"
   role = aws_iam_role.assume_role.name
 }
 

@@ -38,3 +38,7 @@ variable "additional_tags" {
   type    = map(any)
   default = {}
 }
+variable "tcp_ports" {
+  type    = list(any)
+  default = []
+}
