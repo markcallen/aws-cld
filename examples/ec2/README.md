@@ -52,9 +52,10 @@ ssh_keys = ["ssh-rsa AA... my@key"]
 ```
 
 ```
+terraform init
+
 terraform workspace new dev
 
-terraform init
 terraform plan -var-file=dev.tfvars -target=module.vpc
 terraform apply -var-file=dev.tfvars -target=module.vpc
 terraform plan -var-file=dev.tfvars
@@ -65,8 +66,8 @@ To create a production environment add the following to prod.tfvars
 
 ```
 cidr = {
-  us_east = "10.121.0.0/16"
-  us_west = "10.122.0.0/16"
+  us_east = "10.113.0.0/16"
+  us_west = "10.114.0.0/16"
 }
 region_us_east = "us-east-1"
 region_us_west = "us-west-1"
@@ -79,9 +80,10 @@ ssh_keys = ["ssh-rsa AA... my@key"]
 ```
 
 ```
+terraform init
+
 terraform workspace new prod
 
-terraform init
 terraform plan -var-file=prod.tfvars -target=module.vpc
 terraform apply -var-file=prod.tfvars -target=module.vpc
 terraform plan -var-file=prod.tfvars
