@@ -41,4 +41,5 @@ module "ec2_instance" {
   availability_zone  = element(var.subnet, count.index).availability_zone
   ssh_keys           = var.ssh_keys
   extra_disk_size    = var.extra_disk_size
+  extra_disk_count   = var.extra_disk_count
 }

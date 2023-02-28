@@ -75,6 +75,7 @@ module "ec2_us_east" {
   route53_zone_id  = var.route53_zone_id_us_east
   vpc_id           = data.aws_vpc.us_east.id
   ssh_keys         = var.ssh_keys
+  tcp_ports        = var.tcp_ports
 }
 
 module "ec2_us_west" {
@@ -99,4 +100,5 @@ module "ec2_us_west" {
   route53_zone_id  = var.route53_zone_id_us_west
   vpc_id           = data.aws_vpc.us_west.id
   ssh_keys         = var.ssh_keys
+  tcp_ports        = var.tcp_ports
 }

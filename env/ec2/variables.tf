@@ -4,17 +4,17 @@ variable "project" {
 variable "environment" {
   type = string
 }
-
 variable "region_us_east" {
   type = string
 }
 variable "region_us_west" {
   type = string
 }
-
 variable "route53_zone_id_us_east" {
+  type = string
 }
 variable "route53_zone_id_us_west" {
+  type = string
 }
 variable "instance_count_us_east" {
   type = number
@@ -43,4 +43,7 @@ variable "root_disk_size" {
 variable "name" {
   type = string
 }
-
+variable "tcp_ports" {
+  type    = list(any)
+  default = []
+}
