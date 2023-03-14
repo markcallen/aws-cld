@@ -503,7 +503,7 @@ Distributed under the Apache-2.0 License. See `LICENSE` for more information.
 
 ## Contact
 
-Your Name - [@markcallen](https://mastodon.social/@markcallen) - mark@markcallen.com
+Your Name - [@markcallen](https://www.linkedin.com/in/markcallen/)
 
 Project Link: [https://github.com/markcallen/aws-cld](https://github.com/markcallen/aws-cld)
 
