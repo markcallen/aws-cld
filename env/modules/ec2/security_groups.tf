@@ -5,6 +5,7 @@ resource "aws_security_group" "ssh_web" {
   vpc_id = var.vpc_id
 
   ingress {
+    description = "ssh port 22 ingress"
     from_port   = 22
     to_port     = 22
     protocol    = "tcp"
@@ -12,6 +13,7 @@ resource "aws_security_group" "ssh_web" {
   }
 
   ingress {
+    description = "http port 80 ingress"
     from_port   = 80
     to_port     = 80
     protocol    = "tcp"
@@ -19,6 +21,7 @@ resource "aws_security_group" "ssh_web" {
   }
 
   ingress {
+    description = "https port 443 ingress"
     from_port   = 443
     to_port     = 443
     protocol    = "tcp"
@@ -26,6 +29,7 @@ resource "aws_security_group" "ssh_web" {
   }
 
   egress {
+    description = "global egress"
     from_port   = 0
     to_port     = 0
     protocol    = "-1"
