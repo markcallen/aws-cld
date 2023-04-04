@@ -472,7 +472,7 @@ ansible/docker.yaml
 
 ansible/data.yaml
 ```
-- hosts: nodes
+- hosts: all
   become: yes
   become_method: sudo
   roles:
