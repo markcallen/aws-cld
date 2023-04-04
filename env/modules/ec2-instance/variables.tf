@@ -9,13 +9,28 @@ variable "ami_id" {
 variable "subnet_id" {
 }
 variable "profile_name" {
+  type = string
 }
 variable "instance_type" {
+  type    = string
   default = "t3.small"
 }
 variable "root_disk_size" {
+  description = "size in GB"
+  type        = number
+  default     = 20
+}
+variable "root_disk_type" {
+  type    = string
+  default = "gp2"
+}
+variable "root_disk_iops" {
   type    = number
-  default = 20
+  default = 0
+}
+variable "root_disk_throughput" {
+  type    = number
+  default = 0
 }
 variable "extra_disk_count" {
   type    = number
@@ -26,15 +41,17 @@ variable "extra_disk_size" {
   type        = number
   default     = 100
 }
-variable "extra_disk_iops" {
-  default = 3000
-}
-variable "extra_disk_throughput" {
-  default = 125
-}
 variable "extra_disk_type" {
   type    = string
   default = "gp3"
+}
+variable "extra_disk_iops" {
+  type    = number
+  default = 3000
+}
+variable "extra_disk_throughput" {
+  type    = number
+  default = 125
 }
 variable "extra_disk_device_names" {
   type    = list(any)

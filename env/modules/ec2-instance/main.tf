@@ -15,6 +15,9 @@ resource "aws_instance" "ec2" {
 
   root_block_device {
     volume_size = var.root_disk_size
+    volume_type = var.root_disk_type
+    iops        = var.root_disk_iops
+    throughput  = var.root_disk_throughput
   }
 
   lifecycle {
@@ -26,9 +29,9 @@ resource "aws_instance" "ec2" {
 resource "aws_ebs_volume" "extra_disk" {
   count = var.extra_disk_count
 
+  size              = var.extra_disk_size
   type              = var.extra_disk_type
   availability_zone = var.availability_zone
-  size              = var.extra_disk_size
   iops              = var.extra_disk_iops
   throughput        = var.extra_disk_throughput
 }
