@@ -38,6 +38,9 @@ resource "aws_security_group" "ssh_web" {
 
   lifecycle {
     create_before_destroy = true
+    ignore_changes = [
+      name
+    ]
   }
 }
 

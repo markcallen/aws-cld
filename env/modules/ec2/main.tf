@@ -16,11 +16,23 @@ resource "aws_iam_role" "assume_role" {
   ]
 }
 EOF
+
+  lifecycle {
+    ignore_changes = [
+      name
+    ]
+  }
 }
 
 resource "aws_iam_instance_profile" "profile" {
   name = "${var.name}-${random_id.id.hex}-ec2-profile-${var.region}"
   role = aws_iam_role.assume_role.name
+
+  lifecycle {
+    ignore_changes = [
+      name
+    ]
+  }
 }
 
 module "ec2_instance" {
