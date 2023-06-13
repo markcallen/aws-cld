@@ -23,7 +23,7 @@ Log into AWS with the root account and create a new user and attach the Administ
 
 ### Cloudflare
 
-Log into the cloudflare dashboard using the main account and invite a user into the account.  Login with that user and create an API token.
+Log into the cloudflare dashboard using the main account and invite a user into the account.  Login with that user and create an API token with Edit:DNS.
 
 ### Environment
 
@@ -438,6 +438,26 @@ module "ec2" {
 }
 
 ```
+
+Cloudflare
+
+Adding environment domains to a cloudflare root domain
+
+```
+module "cloudflarens" {
+  source = "github.com/markcallen/aws-cld//env/cloudflare-ns"
+
+  project      = var.project
+  environment  = var.environment
+  name_servers = module.route53.environment.name_servers
+  zone_id      = var.zone_id
+
+  depends_on = [
+    module.route53.environment
+  ]
+}
+```
+
 
 Ansible
 
