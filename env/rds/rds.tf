@@ -23,16 +23,16 @@ module "security_group" {
   }
 
   name        = local.name
-  description = "Complete PostgreSQL example security group"
+  description = "database security group"
   vpc_id      = var.vpc_id
 
   # ingress
   ingress_with_cidr_blocks = [
     {
-      from_port   = 5432
-      to_port     = 5432
+      from_port   = var.database_port
+      to_port     = var.database_port
       protocol    = "tcp"
-      description = "PostgreSQL access from within VPC"
+      description = "database access from within VPC"
       cidr_blocks = var.cidr_blocks
     },
   ]
@@ -58,28 +58,28 @@ module "db" {
   create_db_option_group    = false
   create_db_parameter_group = false
 
-  # All available versions: https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/CHAP_PostgreSQL.html#PostgreSQL.Concepts
-  engine               = "postgres"
-  engine_version       = "14.3"
-  family               = "postgres14" # DB parameter group
-  major_engine_version = "14"         # DB option group
+  engine               = var.database_engine
+  engine_version       = var.database_engine_version
+  major_engine_version = var.database_major_engine_version
+  family               = var.database_family
   instance_class       = var.instance_class
 
-  allocated_storage = var.allocated_storage
+  allocated_storage     = var.allocated_storage
+  max_allocated_storage = var.max_allocated_storage
 
   # NOTE: Do NOT use 'user' as the value for 'username' as it throws:
   # "Error creating DB Instance: InvalidParameterValue: MasterUsername
   # user cannot be used as it is a reserved word used by the engine"
   db_name  = var.database_name
   username = var.username
-  port     = 5432
+  port     = var.database_port
 
   db_subnet_group_name   = var.subnet_group
   vpc_security_group_ids = [module.security_group.security_group_id]
 
   maintenance_window              = "Mon:00:00-Mon:03:00"
   backup_window                   = "03:00-06:00"
-  enabled_cloudwatch_logs_exports = ["postgresql", "upgrade"]
+  enabled_cloudwatch_logs_exports = ["general"]
   create_cloudwatch_log_group     = true
 
   backup_retention_period = 1
