@@ -11,7 +11,7 @@ resource "aws_security_group" "cluster" {
   }
 
   tags = {
-    Name = "${var.eks_cluster_name}-cluster"
+    Name        = "${var.eks_cluster_name}-cluster"
     Environment = var.environment
   }
 }
@@ -43,8 +43,8 @@ resource "aws_security_group" "node" {
   }
 
   tags = {
-    "Name"                                      = "${var.eks_cluster_name}-node"
-    "Environment"                               = var.environment
+    "Name"                                          = "${var.eks_cluster_name}-node"
+    "Environment"                                   = var.environment
     "kubernetes.io/cluster/${var.eks_cluster_name}" = "owned"
   }
 }
@@ -67,7 +67,7 @@ resource "aws_security_group_rule" "node_ingress_cluster" {
   source_security_group_id = aws_security_group.cluster.id
   to_port                  = 65535
   type                     = "ingress"
- }
+}
 
 resource "aws_security_group_rule" "cluster_ingress_node_https" {
   description              = "Allow pods to communicate with the cluster API Server"

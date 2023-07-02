@@ -6,7 +6,7 @@ variable "project" {
 }
 
 variable "public_ip" {
-  type = string
+  type    = string
   default = "0.0.0.0/0"
 }
 
