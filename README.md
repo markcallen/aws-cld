@@ -515,6 +515,33 @@ ansible-playbook -i dev -u ubuntu docker.yaml
 ansible-playbook -i dev -u ubuntu data.yaml
 ```
 
+## Develop
+
+Install terraform v1.1.7 using tfenv
+
+```
+tfenv install v1.1.7
+tfenv use v1.1.7
+```
+Install other tools for devops tasks.  See [pre-commit-terraform](https://github.com/antonbabenko/pre-com
+mit-terraform?search=1)
+
+```
+brew install pre-commit terraform-docs tflint tfsec checkov terrascan infracost tfupdate minamijoyo/hcled
+it/hcledit jq
+```
+
+Install pre-commit
+```
+pre-commit install
+```
+
+Run pre-commit manually
+
+```
+pre-commit run --all-files
+```
+
 ## License
 
 Distributed under the Apache-2.0 License. See `LICENSE` for more information.
