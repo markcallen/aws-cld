@@ -542,6 +542,10 @@ Run pre-commit manually
 pre-commit run --all-files
 ```
 
+## Pull Request
+
+To update the version of this module add the patch, minor or major tags to the PR.
+
 ## License
 
 Distributed under the Apache-2.0 License. See `LICENSE` for more information.
