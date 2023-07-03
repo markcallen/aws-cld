@@ -1,11 +1,3 @@
-locals {
-  common_tags = {
-    Environment = var.environment
-    ManagedBy   = "aws-cld"
-    Project     = var.project
-  }
-}
-
 data "aws_route53_zone" "root" {
   name = var.domain
 }
@@ -16,6 +8,4 @@ resource "aws_route53_record" "environment" {
   type    = "NS"
   ttl     = "30"
   records = var.name_servers
-
-  tags = local.common_tags
 }
