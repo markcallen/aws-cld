@@ -15,7 +15,6 @@ module "vpc_us_west" {
 
   create_database_subnet_group = true
   name                         = "${var.project}-us-west-${var.environment}"
-  environment                  = var.environment
   cidr                         = var.cidr.us_west
   subnet_count                 = var.subnet_count
 
@@ -31,7 +30,6 @@ module "vpc_us_east" {
 
   create_database_subnet_group = true
   name                         = "${var.project}-us-east-${var.environment}"
-  environment                  = var.environment
   cidr                         = var.cidr.us_east
   subnet_count                 = var.subnet_count
 

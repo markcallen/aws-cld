@@ -1,9 +1,3 @@
-variable "project" {
-  type = string
-}
-variable "environment" {
-  type = string
-}
 variable "region" {
   type = string
 }
@@ -42,4 +36,8 @@ variable "name" {
 variable "tcp_ports" {
   type    = list(any)
   default = []
+}
+variable "additional_tags" {
+  type    = map(any)
+  default = {}
 }

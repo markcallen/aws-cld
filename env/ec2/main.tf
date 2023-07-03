@@ -1,3 +1,11 @@
+locals {
+  common_tags = {
+    Environment = var.environment
+    ManagedBy   = "terraform"
+    Project     = var.project
+  }
+}
+
 data "aws_vpc" "us_east" {
   provider = aws.us_east
 
@@ -61,9 +69,7 @@ module "ec2_us_east" {
     aws = aws.us_east
   }
 
-  project     = var.project
-  environment = var.environment
-  region      = var.region_us_east
+  region = var.region_us_east
 
   name             = var.name
   instance_type    = var.instance_type
@@ -76,6 +82,8 @@ module "ec2_us_east" {
   vpc_id           = data.aws_vpc.us_east.id
   ssh_keys         = var.ssh_keys
   tcp_ports        = var.tcp_ports
+
+  additional_tags = local.common_tags
 }
 
 module "ec2_us_west" {
@@ -85,10 +93,7 @@ module "ec2_us_west" {
     aws = aws.us_west
   }
 
-
-  project     = var.project
-  environment = var.environment
-  region      = var.region_us_west
+  region = var.region_us_west
 
   name             = var.name
   instance_type    = var.instance_type
@@ -101,4 +106,6 @@ module "ec2_us_west" {
   vpc_id           = data.aws_vpc.us_west.id
   ssh_keys         = var.ssh_keys
   tcp_ports        = var.tcp_ports
+
+  additional_tags = local.common_tags
 }
