@@ -1,0 +1,28 @@
+name: pull-request
+
+on:
+  - pull_request
+permissions:
+  contents: write
+  pull-requests: write
+  issues: write
+  checks: write
+
+jobs:
+  checks:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          ref: ${{ github.event.pull_request.head.ref }}
+      - name: tfsec
+        uses: aquasecurity/tfsec-pr-commenter-action@v1.2.0
+        with:
+          github_token: ${{ github.token }}
+
+#      - name: Render terraform docs inside the README.md and push changes back to PR branch
+#        uses: terraform-docs/gh-actions@v1.0.0
+#        with:
+#          working-dir: .
+#          output-method: replace
+#          git-push: "true"
