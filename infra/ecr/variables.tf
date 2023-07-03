@@ -9,4 +9,3 @@ variable "ecr_repositories" {
   description = "List of the ECR repositories"
   type        = list(string)
 }
-

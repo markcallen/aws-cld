@@ -20,6 +20,7 @@ variable "vpc_id" {
   type = string
 }
 variable "cidr_blocks" {
+  type = map(any)
 }
 variable "subnet_group" {
   type = string

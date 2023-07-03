@@ -5,4 +5,3 @@ output "terraform_bucket_name" {
 output "project_name" {
   value = local.project_name
 }
-

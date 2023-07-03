@@ -3,7 +3,7 @@
 ## Setup
 
 Create your public key
- - requires gpg setup to be completed 
+ - requires gpg setup to be completed
 
 ```
 gpg --export your.email@address.com | base64 > public-key.gpg

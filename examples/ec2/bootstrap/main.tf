@@ -10,6 +10,8 @@ terraform {
 
 module "bootstrap" {
   source = "../../../bootstrap/"
+
+  project = "examples-ec2"
 }
 
 output "project" {

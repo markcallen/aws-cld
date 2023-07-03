@@ -43,4 +43,3 @@ resource "aws_volume_attachment" "ebs_att" {
   volume_id   = aws_ebs_volume.extra_disk[count.index].id
   instance_id = aws_instance.ec2.id
 }
-

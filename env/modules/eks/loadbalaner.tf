@@ -249,4 +249,3 @@ resource "aws_iam_role_policy_attachment" "loadbalancer_irsa_attachment" {
   policy_arn = aws_iam_policy.loadbalancer.arn
   role       = aws_iam_role.loadbalancer_irsa.name
 }
-

@@ -16,15 +16,15 @@ data "aws_vpc" "us_east" {
   }
 }
 
-data "aws_vpc" "us_west" {
-  provider = aws.us_west
-
-  tags = {
-    Name        = "${var.project}-us-west-${var.environment}"
-    Project     = var.project
-    Environment = var.environment
-  }
-}
+#data "aws_vpc" "us_west" {
+#  provider = aws.us_west
+#
+#  tags = {
+#    Name        = "${var.project}-us-west-${var.environment}"
+#    Project     = var.project
+#    Environment = var.environment
+#  }
+#}
 
 module "eks_us_east" {
   source = "../modules/eks"

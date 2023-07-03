@@ -1,35 +1,21 @@
 variable "environment" {
+  type = string
 }
-variable "public_ip" {
-  default = "0.0.0.0/0"
+variable "database_name" {
+  type = string
 }
-variable "rest_master_username" {
+variable "master_username" {
+  type = string
 }
-variable "rest_master_password" {
+variable "master_password" {
+  type = string
 }
-variable "rest_subnet_count_us_east" {
+variable "subnet_count_us_east" {
+  type = string
 }
-variable "rest_subnet_count_us_west" {
+variable "subnet_count_us_west" {
+  type = string
 }
-variable "rest_instance_class" {
-}
-variable "web_master_username" {
-}
-variable "web_master_password" {
-}
-variable "web_subnet_count_us_east" {
-}
-variable "web_subnet_count_us_west" {
-}
-variable "web_instance_class" {
-}
-variable "ltf_master_username" {
-}
-variable "ltf_master_password" {
-}
-variable "ltf_subnet_count_us_east" {
-}
-variable "ltf_subnet_count_us_west" {
-}
-variable "ltf_instance_class" {
+variable "instance_class" {
+  type = string
 }

@@ -187,10 +187,10 @@ resource "aws_iam_policy" "ssh_connect" {
   path        = "/"
   description = "SSH Connect"
   policy      = <<EOF
-{  
+{
    "Version":"2012-10-17",
-   "Statement":[ 
-      { 
+   "Statement":[
+      {
          "Sid": "AllowEc2InstanceConnect",
          "Effect": "Allow",
          "Action": "ec2-instance-connect:SendSSHPublicKey",

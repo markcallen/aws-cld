@@ -14,4 +14,3 @@ Example of how to create an ec2 instance.  Good for getting started with develop
 ## Cleanup
 
 Run `tf destroy` on all directories, then remove the s3 bucket.
-

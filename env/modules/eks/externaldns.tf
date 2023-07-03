@@ -54,5 +54,3 @@ resource "aws_iam_role_policy_attachment" "externaldns_irsa_attachment" {
   policy_arn = aws_iam_policy.externaldns.arn
   role       = aws_iam_role.externaldns_irsa.name
 }
-
-

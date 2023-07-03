@@ -1,12 +1,8 @@
-variable "project" {
-  type = string
-}
-variable "environment" {
-  type = string
-}
 variable "ami_id" {
+  type = string
 }
 variable "subnet_id" {
+  type = string
 }
 variable "profile_name" {
   type = string
@@ -61,6 +57,7 @@ variable "security_group_ids" {
   type = list(any)
 }
 variable "availability_zone" {
+  type = string
 }
 variable "additional_tags" {
   type    = map(any)

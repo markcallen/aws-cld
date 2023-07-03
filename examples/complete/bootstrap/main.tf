@@ -14,6 +14,8 @@ terraform {
 
 module "bootstrap" {
   source = "../../../bootstrap"
+
+  project = "examples-complete"
 }
 
 output "project" {

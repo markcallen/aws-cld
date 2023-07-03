@@ -1,4 +1,5 @@
 variable "project" {
+  type = string
 }
 
 module "iam" {

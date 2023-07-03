@@ -50,4 +50,3 @@ variable "ops_users" {
   type        = list(string)
   default     = []
 }
-

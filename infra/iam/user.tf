@@ -52,4 +52,3 @@ resource "aws_iam_group_membership" "operations" {
   users = var.ops_users
   group = aws_iam_group.operations.name
 }
-

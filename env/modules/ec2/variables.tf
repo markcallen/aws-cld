@@ -36,16 +36,8 @@ variable "ssh_keys" {
   default = []
   type    = list(any)
 }
-variable "public_ip" {
-  type    = string
-  default = "0.0.0.0/0"
-}
 variable "name" {
   type = string
-}
-variable "additional_tags" {
-  type    = map(any)
-  default = {}
 }
 variable "tcp_ports" {
   type    = list(any)

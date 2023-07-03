@@ -5,7 +5,8 @@ terraform {
       version = "~> 4.0"
     }
     local = {
-      source = "hashicorp/local"
+      source  = "hashicorp/local"
+      version = "~> 2.0"
     }
   }
   required_version = ">= 0.13"

@@ -176,7 +176,7 @@ module "ecr" {
 ```
 
 If you already have users created in IAM and just want to add them to the project then
-leave the iam_users array empty and include the users you want in this project to 
+leave the iam_users array empty and include the users you want in this project to
 eng_users and ops_users.
 
 
@@ -551,4 +551,3 @@ Distributed under the Apache-2.0 License. See `LICENSE` for more information.
 Your Name - [@markcallen](https://www.linkedin.com/in/markcallen/)
 
 Project Link: [https://github.com/markcallen/aws-cld](https://github.com/markcallen/aws-cld)
-

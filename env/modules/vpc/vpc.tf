@@ -1,18 +1,3 @@
-variable "public_subnet_numbers" {
-  description = "List of 8-bit numbers of subnets of base_cidr_block that should be granted access."
-  default     = [1, 2, 3, 4, 5]
-}
-
-variable "database_subnet_numbers" {
-  description = "List of 8-bit numbers of subnets of base_cidr_block that should be granted access."
-  default     = [101, 102, 103, 104, 105]
-}
-
-variable "private_subnet_numbers" {
-  description = "List of 8-bit numbers of subnets of base_cidr_block that should be granted access."
-  default     = [249, 250, 251, 252, 253]
-}
-
 data "aws_availability_zones" "available" {
   state = "available"
 }
