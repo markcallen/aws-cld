@@ -40,9 +40,6 @@ module "ec2_instance" {
 
   count = var.instance_count
 
-  project     = var.project
-  environment = var.environment
-
   ami_id             = data.aws_ami.ubuntu2004.id
   profile_name       = aws_iam_instance_profile.profile.name
   name               = var.name
@@ -54,4 +51,6 @@ module "ec2_instance" {
   ssh_keys           = var.ssh_keys
   extra_disk_size    = var.extra_disk_size
   extra_disk_count   = var.extra_disk_count
+
+  additional_tags = var.additional_tags
 }

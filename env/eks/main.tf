@@ -34,7 +34,6 @@ module "eks_us_east" {
   }
 
   cluster_name      = "${var.project}-us-east-${var.environment}"
-  environment       = var.environment
   vpc_id            = data.aws_vpc.us_east.id
   app_desired_count = var.app_desired_count
   app_max_count     = var.app_max_count
