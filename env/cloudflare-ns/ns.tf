@@ -1,9 +1,9 @@
 locals {
-  common_tags = {
-    Environment = var.environment
-    ManagedBy   = "aws-cld"
-    Project     = var.project
-  }
+  common_tags = [
+    "Environment: ${var.environment}",
+    "ManagedBy: aws-cld",
+    "Project: ${var.project}"
+  ]
 }
 
 resource "cloudflare_record" "aws-ns-record" {
