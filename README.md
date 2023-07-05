@@ -1,7 +1,8 @@
 # aws-cld
 
-Common setup for building out AWS infrastructure for dev, stage and prod.  Includes kubernetes (EKS), databases (Aurora), caches (ElasticCache) and ec2 instances.
-N
+Common setup for building out AWS infrastructure for dev, stage and prod.
+Includes kubernetes (EKS), databases (Aurora), caches (ElasticCache) and ec2 instances.
+
 ## Concepts
 
 Bootstrap creates the s3 bucket that all state will be stored.  It will generate the backend.tf and tfvar files.
