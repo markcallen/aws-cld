@@ -1,0 +1,60 @@
+# -*- mode: yaml -*-
+
+# +----------------------------------------------------------------------------+
+# | WARNING: This file controls repo automations, use caution when modifying   |
+# +----------------------------------------------------------------------------+
+# | This file contains one or more /:\ gitStream automations:                  |
+# | https:// docs.gitstream.cm                                                 |
+# |                                                                            |
+# | gitStream uses YAML syntax with nunjucks templating via Jinja 2.           |
+# |                                                                            |
+# | Automations follow an "if this, then that" execution format.               |
+# | More info here: https://docs.gitstream.cm/how-it-works/                    |
+# |                                                                            |
+# +----------------------------------------------------------------------------+
+
+# /:\ gitStream Reference Docs:
+#    Context Variables: https://docs.gitstream.cm/context-variables/
+#    Filter Functions: https://docs.gitstream.cm/filter-functions/
+#    Automation Actions: https://docs.gitstream.cm/automation-actions/
+
+manifest:
+  version: 1.0
+automations:
+  # Add a label that indicates how many minutes it will take to review the PR.
+  estimated_time_to_review:
+    if:
+      - true
+    run:
+      - action: add-label@v1
+      # etr is defined in the last section of this example
+        args:
+          label: "{{ calc.etr }} min review"
+          color: {{ 'E94637' if (calc.etr >= 20) else ('FBBD10' if (calc.etr >= 5) else '36A853') }}
+  # Post a comment that lists the best experts for the files that were modified.
+  code_experts:
+    if:
+      - true
+    run:
+      - action: add-comment@v1
+      # More info about explainCodeExperts: https://docs.gitstream.cm/filter-functions/#explaincodeexperts
+        args:
+          comment: |
+            {{ repo | explainCodeExperts(gt=10) }}
+  # approve changes to docs, formatting, tests or assets
+  safe_changes:
+    if:
+      - {{ is.docs or is.tests or is.asset or is.formatting }}
+    run:
+      - action: add-label@v1
+        args:
+          label: 'safe-changes'
+      - action: approve@v1
+# The next function calculates the estimated time to review and makes it available in the automation above.
+calc:
+  etr: {{ branch | estimatedReviewTime }}
+is:
+  docs: {{ files | allDocs }}
+  tests: {{ files | allTests }}
+  asset: {{ files | match(regex=r/\.(png|svg|gif|css)$/) | every }}
+  formatting: {{ source.diff.files | isFormattingChange }}
