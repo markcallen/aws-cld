@@ -82,6 +82,7 @@ module "ec2_us_east" {
   vpc_id           = data.aws_vpc.us_east.id
   ssh_keys         = var.ssh_keys
   tcp_ports        = var.tcp_ports
+  architecture     = var.architecture
 
   additional_tags = local.common_tags
 }
@@ -106,6 +107,7 @@ module "ec2_us_west" {
   vpc_id           = data.aws_vpc.us_west.id
   ssh_keys         = var.ssh_keys
   tcp_ports        = var.tcp_ports
+  architecture     = var.architecture
 
   additional_tags = local.common_tags
 }

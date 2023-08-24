@@ -47,3 +47,7 @@ variable "tcp_ports" {
   type    = list(any)
   default = []
 }
+variable "architecture" {
+  type    = string
+  default = "x86_64"
+}
