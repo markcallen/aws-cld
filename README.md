@@ -434,6 +434,8 @@ module "ec2" {
 
   extra_disk_size  = 100
   extra_disk_count = 1
+
+  architecture = "x86_64"
 }
 
 ```
