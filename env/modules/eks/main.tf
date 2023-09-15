@@ -1,7 +1,7 @@
 locals {
   name            = var.cluster_name
   namespace       = "kube-system"
-  cluster_version = "1.22"
+  cluster_version = var.cluster_version
   tags            = var.tags
 }
 

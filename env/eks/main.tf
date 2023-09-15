@@ -34,6 +34,8 @@ module "eks_us_east" {
   }
 
   cluster_name      = "${var.project}-us-east-${var.environment}"
+  cluster_version   = var.cluster_version
+  environment       = var.environment
   vpc_id            = data.aws_vpc.us_east.id
   app_desired_count = var.app_desired_count
   app_max_count     = var.app_max_count
@@ -41,6 +43,8 @@ module "eks_us_east" {
 
   aws_auth_roles = var.aws_auth_roles
   aws_auth_users = var.aws_auth_users
+
+  secrets = var.secrets
 
   enable = var.enable_us_east
 
@@ -55,6 +59,7 @@ module "eks_us_east" {
 #  }
 #
 #  cluster_name      = "${var.project}-us-west-${var.environment}"
+#  cluster_version   = var.cluster_version
 #  environment       = var.environment
 #  vpc_id            = data.aws_vpc.us_west.id
 #  app_desired_count = var.app_desired_count
@@ -63,6 +68,8 @@ module "eks_us_east" {
 #
 #  aws_auth_roles = var.aws_auth_roles
 #  aws_auth_users = var.aws_auth_users
+#
+#  secrets = var.secrets
 #
 #  enable = var.enabled_us_west
 #
