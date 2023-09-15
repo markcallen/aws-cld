@@ -35,3 +35,7 @@ variable "aws_auth_users" {
   type    = list(any)
   default = []
 }
+variable "cluster_version" {
+  type    = string
+  default = "1.22"
+}
