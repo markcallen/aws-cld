@@ -1,15 +1,21 @@
-provider "aws" {
-  region = "us-east-2"
+module "asm_us_east" {
+  source = "../modules/asm"
+
+  providers = {
+    aws = aws.us_east
+  }
+
+  environment = var.environment
+  secrets     = var.secrets
 }
 
-resource "aws_secretsmanager_secret" "nval-web-app" {
-  name = "${var.environment}.nval-web-app"
-}
+module "asm_us_west" {
+  source = "../modules/asm"
 
-resource "aws_secretsmanager_secret" "nval-rest-api" {
-  name = "${var.environment}.nval-rest-api"
-}
+  providers = {
+    aws = aws.us_west
+  }
 
-resource "aws_secretsmanager_secret" "ltf-model" {
-  name = "${var.environment}.ltf-model"
+  environment = var.environment
+  secrets     = var.secrets
 }
