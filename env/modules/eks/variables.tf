@@ -1,3 +1,6 @@
+variable "environment" {
+  type = string
+}
 variable "cluster_name" {
   type = string
 }
@@ -30,4 +33,8 @@ variable "aws_auth_users" {
 }
 variable "tags" {
   type = map(any)
+}
+variable "secrets" {
+  type    = list(any)
+  default = []
 }
