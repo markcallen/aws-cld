@@ -12,6 +12,12 @@ resource "aws_iam_user" "user" {
   }
 }
 
+resource "aws_iam_access_key" "user" {
+  count   = length(var.iam_users)
+  user    = element(var.iam_users, count.index)
+  pgp_key = data.local_file.pgp_key.content
+}
+
 resource "aws_iam_user_login_profile" "login_profile" {
   count                   = length(var.iam_users)
   user                    = element(var.iam_users, count.index)
