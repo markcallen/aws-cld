@@ -53,3 +53,7 @@ variable "database_family" {
 variable "database_port" {
   type = number
 }
+variable "cloudwatch_logs_exports" {
+  type    = list(any)
+  default = ["general"]
+}
