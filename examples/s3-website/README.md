@@ -1,4 +1,4 @@
-# aws-cld/examples/s3
+# aws-cld/examples/s3-website
 
 ## Run
 
@@ -45,4 +45,10 @@ terraform workspace new prod
 
 terraform plan -var-file=prod.tfvars
 terraform apply -var-file=prod.tfvars
+```
+
+Upload index.html file
+
+```
+aws s3 cp index.html <website_endpoint>
 ```
