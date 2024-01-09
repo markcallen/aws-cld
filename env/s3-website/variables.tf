@@ -10,4 +10,3 @@ variable "bucket_name" {
 variable "allowed_origins" {
   type = list(string)
 }
-

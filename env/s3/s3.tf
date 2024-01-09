@@ -1,7 +1,7 @@
 locals {
   common_tags = {
     Environment = var.environment
-    ManagedBy   = "terraform"
+    ManagedBy   = "aws-cld"
     Project     = var.project
   }
 }

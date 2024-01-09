@@ -9,4 +9,3 @@ module "s3" {
 
   bucket_name = "aws-cld-s3-example-${random_pet.bucket.id}"
 }
-

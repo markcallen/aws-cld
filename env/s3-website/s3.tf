@@ -1,6 +1,16 @@
+locals {
+  common_tags = {
+    Environment = var.environment
+    ManagedBy   = "aws-cld"
+    Project     = var.project
+  }
+}
+
 resource "aws_s3_bucket" "website" {
   bucket        = var.bucket_name
   force_destroy = true
+
+  tags = local.common_tags
 }
 
 resource "aws_s3_bucket_acl" "website_acl" {
