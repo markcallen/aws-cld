@@ -1,3 +1,11 @@
+locals {
+  common_tags = {
+    Environment = var.environment
+    ManagedBy   = "aws-cld"
+    Project     = var.project
+  }
+}
+
 module "asm_us_east" {
   source = "../modules/asm"
 
@@ -7,6 +15,8 @@ module "asm_us_east" {
 
   environment = var.environment
   secrets     = var.secrets
+
+  tags = local.common_tags
 }
 
 module "asm_us_west" {
@@ -18,4 +28,6 @@ module "asm_us_west" {
 
   environment = var.environment
   secrets     = var.secrets
+
+  tags = local.common_tags
 }
