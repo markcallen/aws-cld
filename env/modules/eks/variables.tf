@@ -24,17 +24,17 @@ variable "enable" {
   default = 1
 }
 variable "aws_auth_roles" {
-  type    = list(any)
-  default = []
+  type = list(any)
 }
 variable "aws_auth_users" {
-  type    = list(any)
-  default = []
+  type = list(any)
 }
 variable "tags" {
   type = map(any)
 }
 variable "secrets" {
-  type    = list(any)
-  default = []
+  type = list(any)
+}
+variable "s3_buckets" {
+  type = list(any)
 }

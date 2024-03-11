@@ -43,3 +43,7 @@ variable "secrets" {
   type    = list(any)
   default = []
 }
+variable "s3_buckets" {
+  type    = list(any)
+  default = []
+}
