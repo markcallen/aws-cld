@@ -44,7 +44,8 @@ module "eks_us_east" {
   aws_auth_roles = var.aws_auth_roles
   aws_auth_users = var.aws_auth_users
 
-  secrets = var.secrets
+  secrets    = var.secrets
+  s3_buckets = var.s3_buckets
 
   enable = var.enable_us_east
 
