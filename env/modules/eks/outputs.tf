@@ -181,6 +181,30 @@ output "aws_auth_configmap_yaml" {
   value       = module.eks.aws_auth_configmap_yaml
 }
 
-output "aws_secretsmanager-policy-arn" {
-  value = "" #aws_iam_policy.secretsmanager.id
+output "autoscaler_role_arn" {
+  value = "aws_iam_role.autoscaler_irsa.arn"
+}
+
+output "cloudewatch_role_arn" {
+  value = "aws_iam_role.cloudwatch_irsa.arn"
+}
+
+output "efs_role_arn" {
+  value = "aws_iam_role.efs_irsa.arn"
+}
+
+output "externaldns_role_arn" {
+  value = "aws_iam_role.externaldns_irsa.arn"
+}
+
+output "loadbalancer_role_arn" {
+  value = "aws_iam_role.loadbalaner_irsa.arn"
+}
+
+output "s3_role_arn" {
+  value = "aws_iam_role.s3_irsa.arn"
+}
+
+output "secretsmanager_role_arn" {
+  value = "aws_iam_role.secretsmanager_irsa.arn"
 }

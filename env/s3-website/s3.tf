@@ -49,7 +49,6 @@ resource "aws_s3_bucket_cors_configuration" "website" {
   cors_rule {
     allowed_headers = ["Authorization", "Content-Length"]
     allowed_methods = ["GET", "POST"]
-    #allowed_origins = ["https://www.metaversegroup.com", "https://metaversegroup.com"]
     allowed_origins = var.allowed_origins
     max_age_seconds = 3000
   }

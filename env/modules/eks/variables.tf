@@ -36,5 +36,5 @@ variable "secrets" {
   type = list(any)
 }
 variable "s3_buckets" {
-  type = list(any)
+  type = list(string)
 }

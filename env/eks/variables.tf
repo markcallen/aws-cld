@@ -44,6 +44,6 @@ variable "secrets" {
   default = []
 }
 variable "s3_buckets" {
-  type    = list(any)
-  default = []
+  type    = list(string)
+  default = ["arn:aws:s3:::DOC-EXAMPLE-BUCKET"]
 }
