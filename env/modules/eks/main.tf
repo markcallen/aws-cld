@@ -44,6 +44,7 @@ module "eks" {
     vpc-cni = {
       resolve_conflicts = "OVERWRITE"
     }
+    aws-ebs-csi-driver = { most_recent = true }
   }
 
   cluster_encryption_config = [{
@@ -102,6 +103,9 @@ module "eks" {
     # the VPC CNI fails to assign IPs and nodes cannot join the cluster
     # See https://github.com/aws/containers-roadmap/issues/1666 for more context
     iam_role_attach_cni_policy = true
+
+    iam_role_additional_policies = ["arn:aws:iam::aws:policy/service-role/AmazonEBSCSIDriverPolicy"]
+
   }
 
   eks_managed_node_groups = {
@@ -142,6 +146,12 @@ module "eks" {
       desired_size = var.app_desired_count
 
       subnet_ids = data.aws_subnets.node_region.ids
+
+      capacity_type = "SPOT"
+
+      labels = {
+        UsageType = "spot"
+      }
     }
   }
 
