@@ -13,10 +13,18 @@ resource "aws_ses_domain_identity" "ses_domain" {
   domain = var.domain
 }
 
+resource "aws_ses_email_identity" "ses_identity" {
+  email = var.email
+}
+
+resource "aws_ses_domain_dkim" "dkim" {
+  domain = aws_ses_domain_identity.ses_domain.domain
+}
+
 data "aws_iam_policy_document" "ses_policy" {
   statement {
-    actions   = ["ses:SendRawEmail"]
-    resources = [aws_ses_domain_identity.ses_domain.arn]
+    actions   = ["ses:SendRawEmail", "ses:SendEmail"]
+    resources = ["*"]
   }
 }
 
