@@ -12,3 +12,6 @@ variable "username" {
   type    = string
   default = ""
 }
+variable "email" {
+  type = string
+}
