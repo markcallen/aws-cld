@@ -2,12 +2,7 @@
 
 ## Setup
 
-Create your public key
- - requires gpg setup to be completed
-
-```
-gpg --export your.email@address.com | base64 > public-key.gpg
-```
+Need to have a keybase username, can be for each user, or can be just one.
 
 ## Configure
 
@@ -22,11 +17,46 @@ terraform plan -var-file=default.tfvars
 ## decrypting login key
 
 ```
-terraform show
+terraform output password | base64 --decode --ignore-garbage | keybase pgp decrypt
+
 ```
 
-copy the value from the passwords object for the user to get their initial password
+## Migrate from 1.x to 2.x
 
-echo "wcDMA4ABLtqBCTqMAQwAktzKCdZ9+QiYBzCtC3VV02BCk24b/GdHXswu19EYOicdKiNhi1TbNqsf+4aEqXJ9xR2t70WRdN4tTphmIO6WuhZ4MyZhI643P2wSGvkT3qt0IwaHpG5G3dUoilsQgGkMMvH5Ic71Fihiqy0yigUaMGn4vmCgAPP4NEYv1eFLf5v/db/nfgmR1U7LmIFas+IU0n1BxzuU42BGeWBKn/E4KpRhYGGauskIECDzn4j7oYFMnkB+ZpUoZZutfbn+sHyfQJi9c7NG07j7eHRYvHM6MkVJ1Tmmh3iVZQYnhvAuwyd764LJwiVrrm53AdWNJtE41EqjXommC+wZwJBB0nZ0zebVbHeaYf7okVJBrvXQ88pjVZ4u/8GhGOcIFroecjt9IMS9L3sKMyq1wFSQgqaik8v1qGoYCRDiP6vbsxgPruV+9xqvIbufSa+UvfQAYupYFl6SvQ4QjolxVj+++AvtuGNtaKbu+Myu5bc/GMsNPirjr6NtzzF8W7Wu8Hq8arOE0uAB5Mzv/kmOGUXKT0Rw6EywYfvhoungO+CH4Yzx4FPiYxyCluCU5KRsOserJK7eH37+9iupA6XgneIuate04ErkeiyYLuUpBcUbMae3KdFuJeID4MH64SpWAA==" | base64 -d > out.gpg
+Migrate iam_users to the new format
 
-gpg -d --pinentry-mode loopback out.gpg
+If the 1.x iam_users was
+
+```
+iam_users = ["mark"]
+```
+
+then the new version is
+
+```
+ iam_users = {
+   mark = {
+     terraform_managed = true
+     console_access = true
+     cli_access = true
+     pgp_key = "keybase:markcallen"
+   }
+ }
+```
+
+Add `moved` directives for each of the managed users from iam_users to the new format.
+
+```
+moved {
+  from = module.iam.aws_iam_user.user[0]
+  to   = module.iam.aws_iam_user.user["mark"]
+}
+moved {
+  from = module.iam.aws_iam_user_login_profile.login_profile[0]
+  to   = module.iam.aws_iam_user_login_profile.login_profile["mark"]
+}
+moved {
+  from = module.iam.aws_iam_user_policy_attachment.access_keys_attach[0]
+  to   = module.iam.aws_iam_user_policy_attachment.access_keys_attach["mark"]
+}
+```
