@@ -1,28 +1,25 @@
-data "local_file" "pgp_key" {
-  filename = var.public_key_filename
-}
-
 resource "aws_iam_user" "user" {
-  count = length(var.iam_users)
-  name  = element(var.iam_users, count.index)
+  # Create a new user if the user_arn is not defined
+  for_each = { for user, values in var.iam_users : user => values if values.terraform_managed }
+  name     = each.key
 
   tags = {
-    name    = element(var.iam_users, count.index)
+    name    = each.key
     project = var.project
   }
 }
 
 resource "aws_iam_access_key" "user" {
-  count   = length(var.iam_users)
-  user    = element(var.iam_users, count.index)
-  pgp_key = data.local_file.pgp_key.content
+  for_each = { for user, values in var.iam_users : user => values if values.cli_access }
+  user     = each.key
+  pgp_key  = each.value.pgp_key
 }
 
 resource "aws_iam_user_login_profile" "login_profile" {
-  count                   = length(var.iam_users)
-  user                    = element(var.iam_users, count.index)
+  for_each                = { for user, values in var.iam_users : user => values if values.console_access }
+  user                    = each.key
   password_reset_required = true
-  pgp_key                 = data.local_file.pgp_key.content
+  pgp_key                 = each.value.pgp_key
 
   depends_on = [aws_iam_user.user]
 
@@ -36,14 +33,14 @@ resource "aws_iam_user_login_profile" "login_profile" {
 }
 
 resource "aws_iam_user_policy_attachment" "access_keys_attach" {
-  count      = length(var.iam_users)
-  user       = element(var.iam_users, count.index)
+  for_each   = aws_iam_access_key.user
+  user       = each.key
   policy_arn = aws_iam_policy.access_keys.arn
 }
 
 resource "aws_iam_user_policy_attachment" "mfa_attach" {
-  count      = length(var.iam_users)
-  user       = element(var.iam_users, count.index)
+  for_each   = aws_iam_user_login_profile.login_profile
+  user       = each.key
   policy_arn = aws_iam_policy.mfa.arn
 }
 

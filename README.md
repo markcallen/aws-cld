@@ -1,5 +1,8 @@
 # aws-cld
 
+This is the 2.x branch.  There are mutliple breaking changes in how modules are managed mainly with infra/iam and env/vpc to solve some of the major
+problems with using this on small projects (no longer needing VPC peering) and managing IAM user credentials.
+
 Common setup for building out AWS infrastructure for dev, stage and prod.
 Includes kubernetes (EKS), databases (Aurora), caches (ElasticCache) and ec2 instances.
 
@@ -40,19 +43,9 @@ export CLOUDFLARE_EMAIL=
 export CLOUDFLARE_API_TOKEN=
 ```
 
-Install gpg
+Install [keybase](https://keybase.io/download)
 
-```
-brew install gpg
-```
-
-configure gpg if necessary.
-
-Install [git-secret](https://git-secret.io/)
-
-```
-brew install git-secret
-```
+Setup a pgp key, and have other users setup their key as well so you can distribute IAM passwords and AWS credentials securly.
 
 Install tfenv
 
@@ -60,19 +53,19 @@ Install tfenv
 brew install tfenv
 ```
 
-Install terraform 1.1.7
+Install terraform 1.9.4
 
 ```
-tfenv install 1.1.7
+tfenv install 1.9.4
 ```
 
-Use terraform 1.1.7
+Use terraform 1.9.4
 
 ```
-tfenv use 1.1.7
+tfenv use 1.9.4
 terraform --version
 
-Terraform v1.1.7
+Terraform v1.9.4
 ```
 
 Use [tflint](https://github.com/terraform-linters/tflint)
@@ -85,6 +78,19 @@ Setup alias for terraform
 ```
 alias tf=terraform
 ```
+
+## Migration from 1.x to 2.x
+
+Need to use terraform version 1.9.4 or newer. This can require deleting the .terraform.lock.hcl file.
+
+### Infra
+
+Modules
+
+| module | 1.x | 2.x | notes |
+| ------ | --- | --- | ----- |
+| iam | :heavy_check_mark:  | :heavy_check_mark: | requires using a moved blocks for module.iam.aws_iam_user.user, module.iam.aws_iam_user_login_profile.login_profile, module.iam.aws_iam_user_policy_attachment.access_keys_attach |
+
 
 ## Configure
 

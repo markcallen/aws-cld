@@ -5,9 +5,6 @@ variable "aws_region" {
   type    = string
   default = "us-east-1"
 }
-variable "public_key_filename" {
-  type = string
-}
 variable "ops_iam_policy" {
   description = "IAM Policy to be attached to operations role"
   type        = list(string)
@@ -33,10 +30,25 @@ variable "eng_iam_policy" {
   ]
 }
 
+# Example
+# iam_users = {
+#   mark = {
+#     terraform_managed = true
+#     console_access = false
+#     cli_access = true
+#     pgp_key = "keybase:markcallen"
+#   }
+# }
+#
 variable "iam_users" {
   description = "List of users to create in IAM"
-  type        = list(string)
-  default     = []
+  type = map(object({
+    terraform_managed = bool
+    console_access    = bool
+    cli_access        = bool
+    pgp_key           = string
+  }))
+  default = {}
 }
 
 variable "eng_users" {
