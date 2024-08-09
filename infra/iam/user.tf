@@ -33,13 +33,13 @@ resource "aws_iam_user_login_profile" "login_profile" {
 }
 
 resource "aws_iam_user_policy_attachment" "access_keys_attach" {
-  for_each   = { for user, values in var.iam_users : user => values if values.cli_access }
+  for_each   = aws_iam_access_key.user
   user       = each.key
   policy_arn = aws_iam_policy.access_keys.arn
 }
 
 resource "aws_iam_user_policy_attachment" "mfa_attach" {
-  for_each   = { for user, values in var.iam_users : user => values if values.console_access }
+  for_each   = aws_iam_user_login_profile.login_profile
   user       = each.key
   policy_arn = aws_iam_policy.mfa.arn
 }
