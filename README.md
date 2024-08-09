@@ -1,5 +1,7 @@
 # aws-cld
 
+This is the 1.x branch.  Main is now 2.x with major breaking changes to how part of 1.x work, in some cases there isn't a migration path.
+
 Common setup for building out AWS infrastructure for dev, stage and prod.
 Includes kubernetes (EKS), databases (Aurora), caches (ElasticCache) and ec2 instances.
 
