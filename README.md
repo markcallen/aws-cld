@@ -43,19 +43,9 @@ export CLOUDFLARE_EMAIL=
 export CLOUDFLARE_API_TOKEN=
 ```
 
-Install gpg
+Install [keybase](https://keybase.io/download)
 
-```
-brew install gpg
-```
-
-configure gpg if necessary.
-
-Install [git-secret](https://git-secret.io/)
-
-```
-brew install git-secret
-```
+Setup a pgp key, and have other users setup their key as well so you can distribute IAM passwords and AWS credentials securly.
 
 Install tfenv
 
