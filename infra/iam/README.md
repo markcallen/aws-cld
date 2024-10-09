@@ -16,8 +16,16 @@ terraform plan -var-file=default.tfvars
 
 ## decrypting login key
 
+outputs.tf
 ```
-terraform output password | base64 --decode --ignore-garbage | keybase pgp decrypt
+output "iam" {
+  value = module.iam
+}
+```
+
+
+```
+terraform output -json iam | jq -r .secret_access_keys.marka | base64 --decode | keybase pgp decrypt
 
 ```
 
