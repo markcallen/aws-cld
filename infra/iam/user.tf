@@ -13,6 +13,8 @@ resource "aws_iam_access_key" "user" {
   for_each = { for user, values in var.iam_users : user => values if values.cli_access }
   user     = each.key
   pgp_key  = each.value.pgp_key
+
+  depends_on = [aws_iam_user.user]
 }
 
 resource "aws_iam_user_login_profile" "login_profile" {
