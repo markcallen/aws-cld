@@ -32,22 +32,25 @@ resource "aws_iam_policy" "access_keys" {
             "Resource": "arn:aws:iam::*:user/$${aws:username}"
         },
         {
-            "Sid": "AllowManageOwnPasswords",
-            "Effect": "Allow",
-            "Action": [
-                "iam:ChangePassword",
-                "iam:GetUser"
-            ],
-            "Resource": "arn:aws:iam::*:user/$${aws:username}"
-        },
-        {
             "Sid": "AllowManageOwnAccessKeys",
             "Effect": "Allow",
             "Action": [
                 "iam:CreateAccessKey",
                 "iam:DeleteAccessKey",
                 "iam:ListAccessKeys",
-                "iam:UpdateAccessKey"
+                "iam:UpdateAccessKey",
+                "iam:GetAccessKeyLastUsed"
+            ],
+            "Resource": "arn:aws:iam::*:user/$${aws:username}"
+        },
+        {
+            "Sid": "AllowManageOwnSigningCertificates",
+            "Effect": "Allow",
+            "Action": [
+                "iam:DeleteSigningCertificate",
+                "iam:ListSigningCertificates",
+                "iam:UpdateSigningCertificate",
+                "iam:UploadSigningCertificate"
             ],
             "Resource": "arn:aws:iam::*:user/$${aws:username}"
         },
@@ -60,6 +63,18 @@ resource "aws_iam_policy" "access_keys" {
                 "iam:ListSSHPublicKeys",
                 "iam:UpdateSSHPublicKey",
                 "iam:UploadSSHPublicKey"
+            ],
+            "Resource": "arn:aws:iam::*:user/$${aws:username}"
+        },
+        {
+            "Sid": "AllowManageOwnGitCredentials",
+            "Effect": "Allow",
+            "Action": [
+                "iam:CreateServiceSpecificCredential",
+                "iam:DeleteServiceSpecificCredential",
+                "iam:ListServiceSpecificCredentials",
+                "iam:ResetServiceSpecificCredential",
+                "iam:UpdateServiceSpecificCredential"
             ],
             "Resource": "arn:aws:iam::*:user/$${aws:username}"
         }
@@ -78,25 +93,24 @@ resource "aws_iam_policy" "mfa" {
     "Version": "2012-10-17",
     "Statement": [
         {
-            "Sid": "AllowListActions",
+            "Sid": "AllowViewAccountInfo",
             "Effect": "Allow",
             "Action": [
-                "iam:ListUsers",
-                "iam:ListAccountAliases",
-                "iam:ListVirtualMFADevices"
+                "iam:GetAccountPasswordPolicy",
+                "iam:ListVirtualMFADevices",
+                "iam:GetAccountSummary",
+                "iam:GenerateServiceLastAccessedDetails"
             ],
             "Resource": "*"
         },
         {
-            "Sid": "AllowIndividualUserToListOnlyTheirOwnMFA",
+            "Sid": "AllowManageOwnPasswords",
             "Effect": "Allow",
             "Action": [
-                "iam:ListMFADevices"
+                "iam:ChangePassword",
+                "iam:GetUser"
             ],
-            "Resource": [
-                "arn:aws:iam::*:mfa/*",
-                "arn:aws:iam::*:user/$${aws:username}"
-            ]
+            "Resource": "arn:aws:iam::*:user/$${aws:username}"
         },
         {
             "Sid": "AllowIndividualUserToManageTheirOwnMFA",
@@ -104,6 +118,7 @@ resource "aws_iam_policy" "mfa" {
             "Action": [
                 "iam:CreateVirtualMFADevice",
                 "iam:DeleteVirtualMFADevice",
+                "iam:ListMFADevices",
                 "iam:EnableMFADevice",
                 "iam:ResyncMFADevice"
             ],
@@ -125,6 +140,26 @@ resource "aws_iam_policy" "mfa" {
             "Condition": {
                 "Bool": {
                     "aws:MultiFactorAuthPresent": "true"
+                }
+            }
+        },
+        {
+            "Sid": "DenyAllExceptListedIfNoMFA",
+            "Effect": "Deny",
+            "NotAction": [
+                "iam:CreateVirtualMFADevice",
+                "iam:EnableMFADevice",
+                "iam:GetUser",
+                "iam:GetMFADevice",
+                "iam:ListMFADevices",
+                "iam:ListVirtualMFADevices",
+                "iam:ResyncMFADevice",
+                "sts:GetSessionToken"
+            ],
+            "Resource": "*",
+            "Condition": {
+                "BoolIfExists": {
+                    "aws:MultiFactorAuthPresent": "false"
                 }
             }
         }
@@ -160,27 +195,6 @@ resource "aws_iam_policy" "ecr" {
 }
 EOF
 }
-#        {
-#            "Sid": "BlockMostAccessUnlessSignedInWithMFA",
-#            "Effect": "Deny",
-#            "NotAction": [
-#                "iam:CreateVirtualMFADevice",
-#                "iam:EnableMFADevice",
-#                "iam:ListMFADevices",
-#                "iam:ListUsers",
-#                "iam:ListVirtualMFADevices",
-#                "iam:ResyncMFADevice",
-#                "iam:ChangePassword",
-#                "iam:GetAccountSummary",
-#                "iam:ListAccountAliases"
-#            ],
-#            "Resource": "*",
-#            "Condition": {
-#                "BoolIfExists": {
-#                    "aws:MultiFactorAuthPresent": "false"
-#                }
-#            }
-#        }
 
 resource "aws_iam_policy" "ssh_connect" {
   name        = "${var.project}-ssh_connect"
