@@ -4,9 +4,8 @@ resource "aws_elasticache_replication_group" "us_east" {
   replication_group_id = "redis-cluster-us-east-${var.environment}"
   description          = "redis cluster us-east ${var.environment}"
 
-  node_type            = var.node_type
-  parameter_group_name = "default.redis6.x.cluster.on"
-  port                 = 6379
+  node_type = var.node_type
+  port      = 6379
 
   snapshot_retention_limit = 5
   snapshot_window          = "00:00-05:00"
