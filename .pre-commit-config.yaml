@@ -6,7 +6,6 @@ repos:
   - id: terraform_tflint
     args:
     - --args=--config=__GIT_WORKING_DIR__/.tflint.hcl
-    - --args=--module
 - repo: https://github.com/pre-commit/pre-commit-hooks
   rev: v4.1.0
   hooks:
