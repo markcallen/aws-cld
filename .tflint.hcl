@@ -1,5 +1,5 @@
 config {
-  force               = true
+  force               = false
   call_module_type    = "local"
   disabled_by_default = false
 }
@@ -11,7 +11,7 @@ plugin "terraform" {
 
 plugin "aws" {
   enabled = true
-  version = "0.29.0"
+  version = "0.38.0"
   source  = "github.com/terraform-linters/tflint-ruleset-aws"
   region  = "us-east-1"
 }
